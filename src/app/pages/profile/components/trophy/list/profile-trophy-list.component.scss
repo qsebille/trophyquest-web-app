@@ -1,0 +1,7 @@
+@use "styles/colors" as *;
+
+.separator {
+  color: $tq-blue-medium;
+  margin: 3px;
+  width: 95%;
+}

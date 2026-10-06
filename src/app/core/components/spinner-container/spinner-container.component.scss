@@ -1,0 +1,10 @@
+@use '@angular/material' as mat;
+@use 'styles/colors' as *;
+
+.spinner-container {
+  mat-spinner {
+    @include mat.progress-spinner-overrides((
+            active-indicator-color: $tq-blue-medium,
+    ));
+  }
+}

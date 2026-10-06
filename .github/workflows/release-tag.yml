@@ -1,0 +1,37 @@
+name: Release Tag
+on:
+  push:
+    branches:
+      - main
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Get version
+        id: get-version
+        run: VERSION=$(node -p "require('./psn_fetcher/package.json').version")
+
+      - name: Create and push tag
+        run: |
+          VERSION=${{ steps.get-version.outputs.version }}
+          TAG="frontend-v$VERSION"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
