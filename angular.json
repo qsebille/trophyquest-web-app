@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "trophyquest-frontend": {
+    "trophyquest-web-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -75,10 +75,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "trophyquest-frontend:build:production"
+              "buildTarget": "trophyquest-web-app:build:production"
             },
             "development": {
-              "buildTarget": "trophyquest-frontend:build:development"
+              "buildTarget": "trophyquest-web-app:build:development"
             }
           },
           "defaultConfiguration": "development"

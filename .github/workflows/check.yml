@@ -25,8 +25,8 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if [[ ! "$PR_TITLE" =~ ^(fix:|feat:|feat!:)[[:space:]]+[^[:space:]] ]]; then
-            echo "::error::Title must begin with fix:, feat: or feat!:"
+          if [[ ! "$PR_TITLE" =~ ^(fix:|feat:|breaking:)[[:space:]]+[^[:space:]] ]]; then
+            echo "::error::Title must begin with fix:, feat: or breaking:"
             exit 1
           fi
 
@@ -34,9 +34,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - name: Checkout sources
         uses: actions/checkout@v6
@@ -48,7 +45,7 @@ jobs:
         with:
           node-version: '24'
           cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci

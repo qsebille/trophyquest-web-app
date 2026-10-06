@@ -1,4 +1,4 @@
-# TrophyQuest Frontend
+# TrophyQuest Web App (Frontend)
 
 This is the frontend application for **TrophyQuest**, built with [Angular](https://angular.io/). It allows users to
 track their gaming trophies, view player profiles, and manage trophy suites.
@@ -21,7 +21,7 @@ track their gaming trophies, view player profiles, and manage trophy suites.
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd trophyquest-frontend
+   cd trophyquest-web-app
    ```
 
 2. Install dependencies:
