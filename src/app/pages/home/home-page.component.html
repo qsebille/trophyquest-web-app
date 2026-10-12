@@ -2,7 +2,7 @@
 
   <tq-home-game-list [games]="games()"
                      [isLoading]="isLoadingGames()"
-                     (clickOnGame)="navigateToGamePage($event)"
+                     (clickOnGame)="goToGamePage($event)"
                      [style.animation-delay.ms]="400"
                      animate.enter="block-enter"
   />
@@ -10,7 +10,7 @@
 
   <tq-home-player-list [players]="players()"
                        [isLoading]="isLoadingPlayers()"
-                       (clickOnPlayer)="navigateToProfilePage($event)"
+                       (clickOnPlayer)="goToPlayerPage($event)"
                        [style.animation-delay.ms]="600"
                        animate.enter="block-enter"
   />

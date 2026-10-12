@@ -36,4 +36,12 @@ export class HomePageComponent {
     this.gameStore.fetch();
   }
 
+  goToPlayerPage(playerId: string) {
+    console.info("To Be Implemented", playerId)
+  }
+
+  goToGamePage(gameId: string) {
+    console.info("To Be Implemented", gameId)
+  }
+
 }
