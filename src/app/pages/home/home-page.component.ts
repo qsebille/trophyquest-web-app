@@ -1,43 +1,34 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {HomePlayerListComponent} from "./components/players/list/home-player-list.component";
-import {HomeGameListComponent} from "./components/games/list/home-game-list.component";
-import {BackgroundImageService} from "../../core/stores/background-image.service";
-import {NavigatorService} from '../../core/services/navigator.service';
-import {SpinnerContainerComponent} from '../../core/components/spinner-container/spinner-container.component';
-import {HomeGameStoreService} from './services/stores/home-game-store.service';
-import {HomePlayerStoreService} from './services/stores/home-player-store.service';
-import {ErrorMessageComponent} from '../../utils/error-message/error-message.component';
+import {Component, inject} from '@angular/core';
+import {HomePlayerList} from "@home/components/player-list/home-player-list.component";
+import {HomeGameList} from "@home/components/game-list/home-game-list.component";
+import {BackgroundImageService} from "@core/background/background-image.service";
+import {HomeGameStore} from '@home/stores/home-game-store.service';
+import {HomePlayerStore} from '@home/stores/home-player-store.service';
 
 
 @Component({
   imports: [
-    MatProgressSpinnerModule,
-    HomePlayerListComponent,
-    HomeGameListComponent,
-    SpinnerContainerComponent,
-    ErrorMessageComponent,
+    HomePlayerList,
+    HomeGameList,
+
   ],
   providers: [
-    HomeGameStoreService,
-    HomePlayerStoreService,
+    HomeGameStore,
+    HomePlayerStore,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
-export class HomePageComponent implements OnInit {
-  private readonly playerStore = inject(HomePlayerStoreService);
-  private readonly gameStore = inject(HomeGameStoreService);
+export class HomePageComponent {
+  private readonly playerStore = inject(HomePlayerStore);
+  private readonly gameStore = inject(HomeGameStore);
   private readonly backgroundImageService = inject(BackgroundImageService);
-  private readonly navigatorService = inject(NavigatorService);
 
-  readonly games = this.gameStore.games;
-  readonly isLoadingGames = this.gameStore.isLoading;
-  readonly hasGamesError = this.gameStore.hasError;
+  games = this.gameStore.games;
+  isLoadingGames = this.gameStore.isLoading;
 
-  readonly players = this.playerStore.players;
-  readonly isLoadingPlayers = this.playerStore.isLoading;
-  readonly hasPlayersError = this.playerStore.hasError;
+  players = this.playerStore.players;
+  isLoadingPlayers = this.playerStore.isLoading;
 
   ngOnInit(): void {
     this.backgroundImageService.useTopPlayedGame();
@@ -45,20 +36,4 @@ export class HomePageComponent implements OnInit {
     this.gameStore.fetch();
   }
 
-  ngOnDestroy(): void {
-    this.playerStore.reset();
-    this.gameStore.reset();
-  }
-
-  navigateToGamePage(gameId: string): void {
-    this.navigatorService.goToGamePage(gameId);
-  }
-
-  navigateToProfilePage(playerId: string): void {
-    this.navigatorService.goToProfilePage(playerId);
-  }
-
-  navigateToTrophySuitePage(data: { playerId: string, gameId: string, suiteId: string }): void {
-    this.navigatorService.goToTrophySuitePage(data.suiteId, data.gameId, data.playerId);
-  }
 }

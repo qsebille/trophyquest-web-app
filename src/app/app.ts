@@ -1,16 +1,17 @@
 import {Component, computed, inject} from '@angular/core';
-import {NavbarComponent} from './core/components/navbar/navbar.component';
+import {NavbarComponent} from '@core/navbar/navbar.component';
 import {RouterOutlet} from '@angular/router';
-import {IdleReloadService} from "./core/services/idle-reload.service";
-import {BackgroundImageService} from "./core/stores/background-image.service";
-import {AppNotificationComponent} from './core/app-notification/app-notification.component';
+import {IdleReloadService} from "@core/utils/idle-reload.service";
+import {BackgroundImageService} from "@core/background/background-image.service";
+import {Notification} from '@shared/notification/notification.component';
 
 @Component({
   selector: 'tq-root',
   imports: [
     RouterOutlet,
     NavbarComponent,
-    AppNotificationComponent,
+    Notification,
+
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
