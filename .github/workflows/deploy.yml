@@ -141,17 +141,17 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Sync to S3
         env:
-          S3_BUCKET: ${{ secrets.WEB_APP_S3_BUCKET }}
+          S3_BUCKET: ${{ vars.FRONTEND_S3_BUCKET }}
         run: aws s3 sync dist "s3://$S3_BUCKET" --delete
 
       - name: Invalidate CloudFront cache
         env:
-          DISTRIBUTION_ID: ${{ secrets.WEB_APP_CLOUDFRONT_DISTRIBUTION_ID }}
+          DISTRIBUTION_ID: ${{ vars.FRONTEND_CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
           aws cloudfront create-invalidation \
             --distribution-id "$DISTRIBUTION_ID" \
