@@ -1,6 +1,6 @@
 {
   "name": "trophyquest-web-app",
-  "version": "0.0.0",
+  "version": "0.0.0-dev",
   "scripts": {
     "ng": "ng",
     "build": "ng build",
