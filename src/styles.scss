@@ -1,0 +1,168 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use 'styles/colors' as *;
+
+// Bootstrap Theme
+$primary: $tq-blue-medium;
+$success: $tq-green-medium;
+$danger: $tq-red-medium;
+$warning: $tq-yellow-medium;
+$info: $tq-blue-medium;
+$theme-colors: (
+  "primary": $primary,
+  "success": $success,
+  "danger": $danger,
+  "warning": $warning,
+  "info": $info,
+);
+
+@use "bootstrap/scss/bootstrap" with (
+        $primary: $primary,
+        $success: $success,
+        $danger: $danger,
+        $warning: $warning,
+        $info: $info,
+        $theme-colors: $theme-colors
+);
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+  @include mat.theme((
+    color: mat.$azure-palette,
+    typography: Roboto,
+    density: 0
+  ));
+}
+
+body {
+  margin: 0;
+}
+
+.tq-link {
+  text-decoration: none;
+  cursor: pointer;
+  color: $tq-blue-medium;
+
+  &:focus,
+  &:hover {
+    color: $tq-blue-light;
+  }
+}
+
+.tq-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: $tq-blue-medium;
+}
+
+.tq-horiz-separator {
+  color: $tq-blue-dark;
+  width: 90%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/**
+ * ANIMATIONS
+ */
+.block-enter {
+  animation-name: block-enter;
+  animation-duration: 1000ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes block-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-90 {
+  width: 90%;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.fs-8px {
+  font-size: 8px;
+}
+
+.fs-10px {
+  font-size: 10px;
+}
+
+
+:root {
+  --bs-body-font-family: Roboto, sans-serif;
+  --bs-card-border-radius: 0.75rem;
+  --bs-card-bg: #e4eff7;
+  --bs-card-color: $tq-blue-medium;
+  --bs-card-border-color: $tq-blue-dark;
+  --bs-card-border-width: 2px;
+  --bs-body-font-size: 14px;
+}
+
+.card {
+  .card-header {
+    background-color: $tq-blue-lighter;
+  }
+
+  .card-title {
+    color: $tq-blue-medium;
+  }
+
+  .card-body {
+    color: $tq-blue-medium;
+  }
+}

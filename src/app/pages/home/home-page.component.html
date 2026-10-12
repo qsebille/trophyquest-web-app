@@ -1,0 +1,17 @@
+<div class="container container-fluid home-page">
+
+  <tq-home-game-list [games]="games()"
+                     [isLoading]="isLoadingGames()"
+                     (clickOnGame)="goToGamePage($event)"
+                     [style.animation-delay.ms]="400"
+                     animate.enter="block-enter"
+  />
+
+
+  <tq-home-player-list [players]="players()"
+                       [isLoading]="isLoadingPlayers()"
+                       (clickOnPlayer)="goToPlayerPage($event)"
+                       [style.animation-delay.ms]="600"
+                       animate.enter="block-enter"
+  />
+</div>

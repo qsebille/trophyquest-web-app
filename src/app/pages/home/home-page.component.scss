@@ -1,0 +1,13 @@
+.home-page {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+
+  tq-home-game-list {
+    width: 60%;
+  }
+
+  tq-home-player-list {
+    width: 40%;
+  }
+}
