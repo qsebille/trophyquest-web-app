@@ -52,8 +52,16 @@ For CI environments, you can use `npm run test:ci` to run tests once in headless
 This project is configured with GitHub Actions to deploy automatically to AWS S3 when changes are pushed to the `main`
 branch.
 
-- **Workflow**: `.github/workflows/deploy-to-aws.yaml`
+- **Workflow**: `.github/workflows/deploy.yml`
 - **Destination**: AWS S3 Bucket
+
+The release job never pushes commits to `main`. It computes the next semantic version from the latest `v*` tag (based on
+the merged pull request title: `fix:` → patch, `feat:` → minor, `breaking:` → major) and pushes only the resulting
+version tag on the merge commit. The version in `package.json` stays at `0.0.0-dev` and is never bumped.
+
+The tag is pushed with the default `GITHUB_TOKEN` (the release job has `contents: write` permission), so no GitHub App
+or extra secrets are required. Note that tags pushed with `GITHUB_TOKEN` do not trigger other workflows; if a future
+workflow needs to run `on: push: tags`, a GitHub App token or PAT would be required instead.
 
 ## 📚 Technologies Used
 

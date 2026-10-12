@@ -2,7 +2,7 @@ import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChange
 import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@angular/router';
 
 import {routes} from '@core/routing/app.routes';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {provideHttpClient, withInterceptors, withXhr} from '@angular/common/http';
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {authInterceptor} from '@core/auth/interceptors/auth-interceptor';
 
@@ -19,6 +19,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
     ),
     provideHttpClient(
+      withXhr(),
       withInterceptors([authInterceptor])
     ),
   ]
