@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../services/auth.service';
-import {Navigator} from '../../routing/navigator.service';
+import {NavigatorService} from '../../routing/navigator.service';
 
 @Component({
   selector: 'tq-auth-callback',
@@ -12,7 +12,7 @@ import {Navigator} from '../../routing/navigator.service';
 export class AuthCallbackComponent {
   private readonly _route = inject(ActivatedRoute);
   private readonly _authService = inject(AuthService);
-  private readonly _navigator = inject(Navigator);
+  private readonly _navigator = inject(NavigatorService);
 
   async ngOnInit(): Promise<void> {
     const code = this._route.snapshot.queryParamMap.get('code');

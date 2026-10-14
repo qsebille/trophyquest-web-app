@@ -1,13 +1,5 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "schematics": {
-    "@schematics/angular:service": {
-      "addTypeToClassName": false
-    },
-    "@schematics/angular:component": {
-      "addTypeToClassName": false
-    }
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {

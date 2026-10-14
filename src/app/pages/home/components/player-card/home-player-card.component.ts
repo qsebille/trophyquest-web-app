@@ -1,6 +1,6 @@
 import {Component, computed, input, output} from '@angular/core';
 import {DecimalPipe, NgOptimizedImage} from "@angular/common";
-import {HomePlayerItem} from '@home/models/home-player-item';
+import {HomePlayerItem} from '@home/api/models/home-player-item';
 
 @Component({
   selector: 'tq-home-player-card',
@@ -11,7 +11,7 @@ import {HomePlayerItem} from '@home/models/home-player-item';
   templateUrl: './home-player-card.component.html',
   styleUrl: './home-player-card.component.scss',
 })
-export class HomePlayerCard {
+export class HomePlayerCardComponent {
   readonly player = input.required<HomePlayerItem>();
   readonly clickOnPseudo = output();
 

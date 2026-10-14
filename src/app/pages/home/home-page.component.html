@@ -1,17 +1,40 @@
 <div class="container container-fluid home-page">
 
-  <tq-home-game-list [games]="games()"
-                     [isLoading]="isLoadingGames()"
-                     (clickOnGame)="goToGamePage($event)"
-                     [style.animation-delay.ms]="400"
-                     animate.enter="block-enter"
-  />
+  <div class="home-page-panel"
+       [style.animation-delay.ms]="400"
+       animate.enter="block-enter">
+    <div class="home-page-panel-title">Recent popular games</div>
+
+    @if (games.isLoading()) {
+      <tq-spinner/>
+    } @else if (games.hasValue()) {
+      <div class="home-page-panel-list">
+        @for (game of games.value(); track game.gameId) {
+          <tq-home-game-card [game]="game" (clickGameTitle)="goToGamePage(game.gameId)"/>
+        }
+      </div>
+    } @else {
+      <span class="text-muted">No recent popular games</span>
+    }
+  </div>
 
 
-  <tq-home-player-list [players]="players()"
-                       [isLoading]="isLoadingPlayers()"
-                       (clickOnPlayer)="goToPlayerPage($event)"
-                       [style.animation-delay.ms]="600"
-                       animate.enter="block-enter"
-  />
+  <div class="home-page-panel"
+       [style.animation-delay.ms]="600"
+       animate.enter="block-enter">
+    <div class="home-page-panel-title">Top recent players</div>
+
+    @if (players.isLoading()) {
+      <tq-spinner/>
+    } @else if (players.hasValue()) {
+      <div class="home-page-panel-list">
+        @for (player of players.value(); track player.playerId) {
+          <tq-home-player-card [player]="player"
+                               (clickOnPseudo)="goToPlayerPage(player.playerId)"/>
+        }
+      </div>
+    } @else {
+      <span class="text-muted">No recent players</span>
+    }
+  </div>
 </div>

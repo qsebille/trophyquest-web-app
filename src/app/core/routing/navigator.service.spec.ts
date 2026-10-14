@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {Navigator} from './navigator.service';
+import {NavigatorService} from './navigator.service';
 
 describe('NavigatorService', () => {
-  let service: Navigator;
+  let service: NavigatorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Navigator);
+    service = TestBed.inject(NavigatorService);
   });
 
   it('should be created', () => expect(service).toBeTruthy());

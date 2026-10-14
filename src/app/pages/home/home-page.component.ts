@@ -1,47 +1,44 @@
-import {Component, inject} from '@angular/core';
-import {HomePlayerList} from "@home/components/player-list/home-player-list.component";
-import {HomeGameList} from "@home/components/game-list/home-game-list.component";
-import {BackgroundImageService} from "@core/background/background-image.service";
-import {HomeGameStore} from '@home/stores/home-game-store.service';
-import {HomePlayerStore} from '@home/stores/home-player-store.service';
+import {Component, effect, inject} from '@angular/core';
+import {BackgroundService} from "@core/background/background.service";
+import {HomeApiService} from '@home/api/home-api.service';
+import {HomeGameCardComponent} from '@home/components/game-card/home-game-card.component';
+import {SpinnerComponent} from '@core/spinner/spinner.component';
+import {HomePlayerCardComponent} from '@home/components/player-card/home-player-card.component';
 
 
 @Component({
   imports: [
-    HomePlayerList,
-    HomeGameList,
-
-  ],
-  providers: [
-    HomeGameStore,
-    HomePlayerStore,
+    HomeGameCardComponent,
+    SpinnerComponent,
+    HomePlayerCardComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
-  private readonly playerStore = inject(HomePlayerStore);
-  private readonly gameStore = inject(HomeGameStore);
-  private readonly backgroundImageService = inject(BackgroundImageService);
+  private readonly backgroundService = inject(BackgroundService);
+  private readonly homeApiService = inject(HomeApiService);
 
-  games = this.gameStore.games;
-  isLoadingGames = this.gameStore.isLoading;
+  readonly games = this.homeApiService.topGames(() => 10);
+  readonly players = this.homeApiService.topPlayers(() => 10);
+  readonly backgroundImage = this.homeApiService.background();
 
-  players = this.playerStore.players;
-  isLoadingPlayers = this.playerStore.isLoading;
-
-  ngOnInit(): void {
-    this.backgroundImageService.useTopPlayedGame();
-    this.playerStore.fetch();
-    this.gameStore.fetch();
+  constructor() {
+    effect(() => {
+      if (this.backgroundImage.hasValue()) {
+        this.backgroundService.setBackground(
+          this.backgroundImage.value() ?? {url: ''}
+        );
+      }
+    });
   }
 
   goToPlayerPage(playerId: string) {
-    console.info("To Be Implemented", playerId)
+    // TODO: TO BE IMPLEMENTED
   }
 
   goToGamePage(gameId: string) {
-    console.info("To Be Implemented", gameId)
+    // TODO: TO BE IMPLEMENTED
   }
 
 }

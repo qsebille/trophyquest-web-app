@@ -4,8 +4,8 @@ import {Router} from "@angular/router";
 @Injectable({
   providedIn: 'root',
 })
-export class Navigator {
-  private readonly router: Router = inject(Router);
+export class NavigatorService {
+  private readonly router = inject(Router);
 
   goToHomePage(): void {
     this.router.navigate(['/']).then(() => console.info('Navigated to home page'));

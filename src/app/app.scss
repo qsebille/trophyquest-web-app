@@ -1,4 +1,4 @@
-@use 'styles/colors' as *;
+@use 'styles/variables/colors' as *;
 
 .trophy-quest-app {
   min-height: 100vh;
@@ -16,7 +16,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.8; // Slightly more transparent (previously was 0.95 on the whole container)
+    opacity: 0.8;
     z-index: 0;
     pointer-events: none;
   }

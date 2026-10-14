@@ -7,7 +7,7 @@ import {AuthUser} from '../models/auth-user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthApi {
+export class AuthApiService {
   private readonly apiUrl = `${environment.apiUrl}/auth`;
   private readonly httpClient = inject(HttpClient);
 

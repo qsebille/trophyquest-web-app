@@ -1,11 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {HomePlayerCard} from './home-player-card.component';
-import {HomePlayerItem} from '@home/models/home-player-item';
+import {HomePlayerCardComponent} from './home-player-card.component';
+import {HomePlayerItem} from '@home/api/models/home-player-item';
 
-describe('HomePlayerCard', () => {
-  let component: HomePlayerCard;
-  let fixture: ComponentFixture<HomePlayerCard>;
+describe('HomePlayerCardComponent', () => {
+  let component: HomePlayerCardComponent;
+  let fixture: ComponentFixture<HomePlayerCardComponent>;
 
   const mockPlayer = {
     playerId: 'player-1',
@@ -19,10 +19,10 @@ describe('HomePlayerCard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomePlayerCard]
+      imports: [HomePlayerCardComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HomePlayerCard);
+    fixture = TestBed.createComponent(HomePlayerCardComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('player', mockPlayer);
     fixture.detectChanges();

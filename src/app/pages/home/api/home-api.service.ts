@@ -1,22 +1,31 @@
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
+import {httpResource} from '@angular/common/http';
 import {environment} from '@environment';
-import {HttpClient} from '@angular/common/http';
-import {HomeGameItem} from '@home/models/home-game-item';
-import {HomePlayerItem} from '@home/models/home-player-item';
+import {HomeGameItem} from '@home/api/models/home-game-item';
+import {HomePlayerItem} from '@home/api/models/home-player-item';
+import {BackgroundImageResponse} from '@core/background/models/background-image-response.model';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class HomeApi {
+@Injectable({providedIn: 'root'})
+export class HomeApiService {
   private readonly apiUrl = `${environment.apiUrl}/home`;
-  private readonly http = inject(HttpClient);
 
-  fetchTopGames(size: number) {
-    return this.http.get<HomeGameItem[]>(`${this.apiUrl}/top-games?size=${size}`);
+  background() {
+    return httpResource<BackgroundImageResponse>(() => ({
+      url: `${this.apiUrl}/background`,
+    }));
   }
 
-  fetchTopPlayers(size: number) {
-    return this.http.get<HomePlayerItem[]>(`${this.apiUrl}/top-players?size=${size}`);
+  topGames(size: () => number) {
+    return httpResource<HomeGameItem[]>(() => ({
+      url: `${this.apiUrl}/top-games`,
+      params: {size: size()},
+    }), {defaultValue: []});
   }
 
+  topPlayers(size: () => number) {
+    return httpResource<HomePlayerItem[]>(() => ({
+      url: `${this.apiUrl}/top-players`,
+      params: {size: size()},
+    }), {defaultValue: []});
+  }
 }
