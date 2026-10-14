@@ -3,7 +3,7 @@ import {NotificationService} from './notification.service';
 import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'tq-app-notification',
+  selector: 'tq-notification-toast',
   standalone: true,
   imports: [
     NgbToast
@@ -24,6 +24,6 @@ import {NgbToast} from '@ng-bootstrap/ng-bootstrap';
     style: 'z-index: 1200'
   }
 })
-export class Notification {
+export class NotificationToastComponent {
   readonly notificationService = inject(NotificationService);
 }

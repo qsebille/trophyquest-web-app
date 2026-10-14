@@ -5,13 +5,13 @@ import {environment} from '@environment';
 import {AuthState} from '../models/auth-state';
 import {TokenResponse} from '../models/token-response';
 import {AuthUser} from '../models/auth-user.model';
-import {AuthApi} from './auth-api.service';
+import {AuthApiService} from './auth-api.service';
 
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly authApiService = inject(AuthApi);
+  private readonly authApiService = inject(AuthApiService);
 
   private readonly domain = environment.cognito.domain;
   private readonly clientId = environment.cognito.clientId;

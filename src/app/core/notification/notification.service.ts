@@ -21,21 +21,21 @@ export class NotificationService {
     this.notifications = this.notifications.filter(t => t !== notification);
   }
 
-  notifySuccess(message: string): void {
+  sendSuccess(message: string): void {
     this.show(message, {
       classname: 'bg-success text-light',
       delay: 4000,
     });
   }
 
-  notifyError(message: string): void {
+  sendError(message: string): void {
     this.show(message, {
       classname: 'bg-danger text-light',
       delay: 6000,
     });
   }
 
-  notifyInfo(message: string): void {
+  sendInfo(message: string): void {
     this.show(message, {
       classname: 'bg-light text-dark',
       delay: 4000,

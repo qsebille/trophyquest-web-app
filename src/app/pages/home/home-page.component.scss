@@ -1,13 +1,32 @@
+@use 'styles/variables/colors' as *;
+@use 'styles/mixins/box' as *;
+
 .home-page {
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
 
-  tq-home-game-list {
-    width: 60%;
-  }
+  &-panel {
+    @include tq-box;
+    background-color: $tq-white;
+    width: 50%;
+    padding: 1rem;
 
-  tq-home-player-list {
-    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.4rem;
+
+    &-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: .3rem;
+    }
   }
 }

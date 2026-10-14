@@ -1,11 +1,45 @@
-@use "styles/colors" as *;
+@use "styles/variables/colors" as *;
 
 .home-player-card {
   background-color: $tq-blue-lighter;
-  border-left: 2px solid $tq-blue-dark;
-  border-radius: 0 10px 10px 0;
-}
+  cursor: default;
+  border-radius: .5rem;
+  padding: .3rem;
 
-.avatar {
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .player-avatar {
+    border-radius: 50%;
+  }
+
+  .player-infos {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    font-size: .8rem;
+  }
+
+  .player-pseudo {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .player-recent-trophies-details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .player-trophy-count {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    &-value {
+      font-size: .8rem;
+      font-weight: 400;
+    }
+  }
 }

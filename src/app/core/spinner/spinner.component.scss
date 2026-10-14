@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use 'styles/colors' as *;
+@use 'styles/variables/colors' as *;
 
 .spinner-container {
   mat-spinner {

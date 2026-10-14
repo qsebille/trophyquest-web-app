@@ -1,5 +1,35 @@
-.game-image {
-  border-radius: 5px;
-  width: 80px;
-  height: auto;
+@use "styles/variables/colors" as *;
+
+.home-game-card {
+  padding: .3rem;
+  background-color: $tq-blue-lighter;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .game-image {
+    border-radius: 5px;
+    width: 72px;
+    height: auto;
+  }
+
+  .game-info {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  .game-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .nb-players {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: .8rem;
+  }
 }
+

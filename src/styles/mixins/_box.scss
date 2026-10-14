@@ -1,0 +1,7 @@
+@use 'styles/variables/colors' as *;
+
+@mixin tq-box {
+  border: 1px solid $tq-blue-darker;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: .5rem;
+}
