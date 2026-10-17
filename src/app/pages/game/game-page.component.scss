@@ -1,5 +1,9 @@
 @use 'styles/variables/colors' as *;
 
+.game-page {
+  margin-top: 5rem;
+}
+
 .nav-tabs {
   .nav-link {
     background-color: $tq-blue-lighter;
