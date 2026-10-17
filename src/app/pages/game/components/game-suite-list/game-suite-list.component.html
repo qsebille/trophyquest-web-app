@@ -1,0 +1,21 @@
+@if (displayReturnToSuiteListButton()) {
+  <button class="btn btn-link fs-10px" (click)="this.selectSuite.emit(null)">
+    Select another trophy suite for this game
+  </button>
+}
+
+<div class="row gap-2">
+  @if (displayedSuites().length == 0) {
+    <div class="text-muted">
+      This game has no registered suite
+    </div>
+  } @else {
+    @for (suite of displayedSuites(); track suite.suiteId) {
+      <tq-game-suite-card
+        class="suite-card"
+        [suite]="suite"
+        [displayMode]="displayMode()"
+        (selectSuite)="this.selectSuite.emit(suite.suiteId)"/>
+    }
+  }
+</div>

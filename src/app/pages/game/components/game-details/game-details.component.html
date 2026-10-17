@@ -1,0 +1,49 @@
+<div class="game-details">
+  <div class="game-details-header">
+    <img [ngSrc]="gameDetails().coverUrl"
+         height="128" width="128"
+         class="game-cover"
+         alt="{{ gameDetails().title }} cover"/>
+    <div class="game-details-header-infos">
+      <div class="game-title">{{ gameDetails().title }}</div>
+      <div class="text-muted" [hidden]="!gameDetails().releaseDate">
+        Release Date: {{ gameDetails().releaseDate | date }}
+      </div>
+    </div>
+  </div>
+
+  <div class="game-details-body">
+    <p class="summary">{{ gameDetails().summary }}</p>
+
+    <div class="game-details-body-section">
+      <div class="game-details-body-section-title">Genres</div>
+      <hr class="game-details-body-section-separator">
+      @for (genre of gameDetails().genres; track genre) {
+        <div class="tag tag-genre">{{ genre }}</div>
+      }
+    </div>
+
+    <div class="game-details-body-section">
+      <div class="game-details-body-section-title">Themes</div>
+      <hr class="game-details-body-section-separator">
+      @for (theme of gameDetails().themes; track theme) {
+        <div class="tag tag-theme">{{ theme }}</div>
+      }
+    </div>
+  </div>
+
+  <div class="game-details-screenshots">
+    @if (hasScreenshots()) {
+      <div class="game-details-screenshots-title">Screenshots</div>
+      <ngb-carousel [showNavigationIndicators]="false" class="banner-carousel">
+        @for (image of gameDetails().screenshotUrls; track image) {
+          <ng-template ngbSlide>
+            <div class="picsum-img-wrapper">
+              <img [src]="image" alt="Game image" class="banner-img"/>
+            </div>
+          </ng-template>
+        }
+      </ngb-carousel>
+    }
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="game-suite-card">
+  <img [ngSrc]="suite().imageUrl"
+       height="90" width="90"
+       [alt]="suite().title"
+       class="game-suite-card-image">
+
+  <div class="game-suite-card-description">
+    <div class="title">
+      {{ suite().title }}
+      <div class="platforms">
+        @for (platform of suite().platforms; track platform) {
+          <div class="badge bg-primary">{{ platform }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="trophies">
+      @for (trophyType of trophyTypes; track trophyType) {
+        <div class="trophy">
+          <img class="trophy-icon"
+               ngSrc="assets/icons/trophy-{{ trophyType }}.png"
+               alt="{{ trophyType }} trophy count"
+               height="32"
+               width="32">
+          <div class="trophy-count">{{ countTrophyByColor(trophyType) }}</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (displayMode() == displayModes.MULTIPLE) {
+    <div class="game-suite-card-select">
+      <button class="btn btn-primary" (click)="selectSuite.emit()">Select</button>
+    </div>
+  }
+</div>

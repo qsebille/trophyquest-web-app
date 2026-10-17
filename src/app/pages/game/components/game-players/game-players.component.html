@@ -1,0 +1,36 @@
+<div class="game-players">
+  <div class="game-players-title">Last players</div>
+
+  <div class="game-players-container container">
+    @for (player of content(); track player) {
+      <div class="player">
+        <img [ngSrc]="player.avatarUrl"
+             alt="Player avatar"
+             width="70"
+             height="70"
+             class="player-avatar"/>
+        <div class="player-pseudo">
+          <span class="tq-link" (click)="clickPseudo.emit(player.playerId)">{{ player.pseudo }}</span>
+        </div>
+        <div class="player-trophies">
+          <!-- TODO: TFQ-37 (Add trophies) -->
+        </div>
+        <div class="player-date">
+          <div class="player-date-day">{{ player.lastPlayedAt | date }}</div>
+          <div class="player-date-hour">{{ player.lastPlayedAt | date: 'shortTime' }}</div>
+        </div>
+      </div>
+      <div class="select-button">
+        <button class="btn btn-primary" (click)="selectPlayer.emit(player.playerId)">Select Profile</button>
+      </div>
+    }
+  </div>
+
+
+  <ngb-pagination [collectionSize]="total()"
+                  [pageSize]="size()"
+                  [page]="page()"
+                  (pageChange)="onPlayerPageChange($event)"
+                  [hidden]="!hasMultiplePages()"
+                  [directionLinks]="false"/>
+</div>

@@ -1,0 +1,72 @@
+@use 'styles/variables/colors' as *;
+
+.game-players {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &-title {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    align-items: center;
+
+    .player {
+      grid-column: span 8;
+      background-color: $tq-blue-lighter;
+      border-radius: 1rem;
+      padding: .5rem;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+      align-items: center;
+
+      &-avatar {
+        grid-column: span 1;
+        border-radius: 100%;
+      }
+
+      &-pseudo {
+        grid-column: span 3;
+        font-size: 1.2rem;
+      }
+
+      &-trophies {
+        grid-column: span 6;
+        background-color: $tq-red-lighter;
+      }
+
+      &-date {
+        justify-self: end;
+        grid-column: span 2;
+        font-size: .75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &-hour {
+          font-size: .6rem;
+        }
+      }
+    }
+
+    .select-button {
+      grid-column: span 2;
+    }
+  }
+
+}
+
+.player-block {
+  background-color: $tq-blue-lighter;
+  border-radius: 10px;
+}
+
+.avatar {
+  border-radius: 10px;
+}

@@ -1,9 +1,7 @@
-import {Injectable, signal} from '@angular/core';
+import {Service, signal} from '@angular/core';
 import {BackgroundImageResponse} from "./models/background-image-response.model";
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class BackgroundService {
   private readonly _image = signal<BackgroundImageResponse>({url: ''});
 

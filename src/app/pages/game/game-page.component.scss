@@ -1,0 +1,37 @@
+@use 'styles/variables/colors' as *;
+
+.game-page {
+  margin-top: 5rem;
+
+  .trophy-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.nav-tabs {
+  .nav-link {
+    background-color: $tq-blue-lighter;
+    color: $tq-blue-light;
+    border-bottom: none;
+
+    &:hover {
+      background-color: $tq-white;
+    }
+
+    &.active {
+      background-color: $tq-white;
+      color: $tq-blue-medium !important;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.game-page-content {
+  background-color: $tq-white;
+  min-height: 80vh;
+  padding: 2rem;
+  border-radius: 0 0 10px 10px;
+}

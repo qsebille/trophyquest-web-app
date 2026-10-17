@@ -1,9 +1,7 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Service} from '@angular/core';
 import {Router} from "@angular/router";
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class NavigatorService {
   private readonly router = inject(Router);
 
@@ -15,4 +13,7 @@ export class NavigatorService {
     this.router.navigate(['/error']).then(() => console.info('Navigated to error page'));
   }
 
+  goToGamePage(gameId: string): void {
+    this.router.navigate(['/game', gameId]).then(() => console.info('Navigated to game page: ' + gameId));
+  }
 }

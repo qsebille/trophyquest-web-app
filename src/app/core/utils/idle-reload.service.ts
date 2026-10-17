@@ -1,9 +1,7 @@
-import {inject, Injectable, NgZone, OnDestroy} from '@angular/core';
+import {inject, NgZone, OnDestroy, Service} from '@angular/core';
 import {filter, fromEvent, merge, startWith, Subscription, switchMap, tap, timer} from "rxjs";
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class IdleReloadService implements OnDestroy {
   private readonly timeoutMs = 60 * 60 * 1000;
   private readonly ngZone: NgZone = inject(NgZone);

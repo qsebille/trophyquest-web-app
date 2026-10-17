@@ -18,11 +18,17 @@
       "@environment": [
         "./src/environments/environment"
       ],
+      "@assets": [
+        "./src/assets"
+      ],
       "@core/*": [
         "./src/app/core/*"
       ],
       "@home/*": [
         "./src/app/pages/home/*"
+      ],
+      "@game/*": [
+        "./src/app/pages/game/*"
       ]
     }
   },

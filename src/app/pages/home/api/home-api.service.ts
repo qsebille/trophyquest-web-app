@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Service} from '@angular/core';
 import {httpResource} from '@angular/common/http';
 import {environment} from '@environment';
 import {HomeGameItem} from '@home/api/models/home-game-item';
 import {HomePlayerItem} from '@home/api/models/home-player-item';
 import {BackgroundImageResponse} from '@core/background/models/background-image-response.model';
 
-@Injectable({providedIn: 'root'})
+@Service()
 export class HomeApiService {
   private readonly apiUrl = `${environment.apiUrl}/home`;
 
