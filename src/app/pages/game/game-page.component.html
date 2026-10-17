@@ -1,0 +1,61 @@
+<div class="container m-5">
+  <ul ngbNav
+      [activeId]="selectedTab()"
+      (activeIdChange)="selectTab($event)"
+      #nav="ngbNav"
+      class="nav-tabs">
+
+    <li [ngbNavItem]="'overview'">
+      <button ngbNavLink>Presentation</button>
+      <ng-template ngbNavContent>
+        @if (details.isLoading()) {
+          <tq-spinner/>
+        } @else if (details.error()) {
+          <div class="alert alert-danger" role="alert">Failed to fetch game details</div>
+        } @else if (details.hasValue()) {
+          <tq-game-details [gameDetails]="details.value()"/>
+        }
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="'trophies'">
+      <button ngbNavLink>Trophies</button>
+      <ng-template ngbNavContent>
+        @if (suites.isLoading()) {
+          <tq-spinner/>
+        } @else if (suites.error()) {
+          <div class="alert alert-danger" role="alert">Failed to fetch suites</div>
+        } @else if (suites.hasValue()) {
+          <tq-game-suite-list [suites]="suites.value()"
+                              [suiteId]="selectedSuiteId()"
+                              (selectSuite)="selectSuite($event)"/>
+          @if (trophies.isLoading()) {
+            <tq-spinner/>
+          } @else if (trophies.error()) {
+            <div class="alert alert-danger" role="alert">Failed to fetch suites</div>
+          } @else if (trophies.hasValue()) {
+            <tq-game-trophy-list [trophies]="trophies.value()"
+                                 [selectedPlayerId]="selectedPlayerId()"/>
+          }
+        }
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="'players'">
+      <button ngbNavLink>Players</button>
+      <ng-template ngbNavContent>
+        @if (players.isLoading()) {
+          <tq-spinner/>
+        } @else if (players.error()) {
+          <div class="alert alert-danger" role="alert">Failed to fetch players</div>
+        } @else if (players.hasValue()) {
+          <tq-game-players [playersPagination]="players.value()"
+                           (selectPlayer)="selectPlayer($event)"
+                           (selectPage)="selectPlayerPage($event)"/>
+        }
+      </ng-template>
+    </li>
+  </ul>
+
+  <div class="game-page-content" [ngbNavOutlet]="nav"></div>
+</div>

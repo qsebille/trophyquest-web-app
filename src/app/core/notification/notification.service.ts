@@ -1,4 +1,4 @@
-import {Injectable, TemplateRef} from '@angular/core';
+import {Service, TemplateRef} from '@angular/core';
 
 export interface Notification {
   text?: string;
@@ -7,9 +7,7 @@ export interface Notification {
   template?: TemplateRef<unknown>;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class NotificationService {
   notifications: Notification[] = [];
 

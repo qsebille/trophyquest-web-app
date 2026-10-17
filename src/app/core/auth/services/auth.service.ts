@@ -1,4 +1,4 @@
-import {computed, inject, Injectable, signal} from '@angular/core';
+import {computed, inject, Service, signal} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {environment} from '@environment';
@@ -8,7 +8,7 @@ import {AuthUser} from '../models/auth-user.model';
 import {AuthApiService} from './auth-api.service';
 
 
-@Injectable({providedIn: 'root'})
+@Service()
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly authApiService = inject(AuthApiService);

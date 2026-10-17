@@ -1,12 +1,10 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Service} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environment';
 import {Observable} from 'rxjs';
 import {AuthUser} from '../models/auth-user.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthApiService {
   private readonly apiUrl = `${environment.apiUrl}/auth`;
   private readonly httpClient = inject(HttpClient);

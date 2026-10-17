@@ -29,8 +29,7 @@
     } @else if (players.hasValue()) {
       <div class="home-page-panel-list">
         @for (player of players.value(); track player.playerId) {
-          <tq-home-player-card [player]="player"
-                               (clickOnPseudo)="goToPlayerPage(player.playerId)"/>
+          <tq-home-player-card [player]="player"/>
         }
       </div>
     } @else {
