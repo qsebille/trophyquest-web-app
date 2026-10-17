@@ -7,5 +7,5 @@ export interface GameTrophyItem {
   isHidden: boolean
   iconUrl: string
   groupName: string
-  earnedAt: Date
+  earnedAt: Date | null
 }

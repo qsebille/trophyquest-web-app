@@ -14,7 +14,7 @@ describe('GameTrophySuiteListComponent', () => {
 
     fixture = TestBed.createComponent(GameSuiteListComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('trophySuites', []);
+    fixture.componentRef.setInput('suites', []);
     fixture.detectChanges();
   });
 

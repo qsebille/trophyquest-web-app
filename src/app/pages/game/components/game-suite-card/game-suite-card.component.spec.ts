@@ -1,13 +1,23 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {GameSuiteCardComponent} from './game-suite-card.component';
-import {
-  GameTrophySuiteDisplayMode
-} from '../../../../pages/game-details/models/constants/game-trophy-suite-display-mode.enum';
+import {GameSuiteDisplayMode} from '@game/models/constants/suite-display-mode';
+import {GameSuiteItem} from '@game/models/game-suite-item';
 
 describe('GameTrophySuiteCardComponent', () => {
   let component: GameSuiteCardComponent;
   let fixture: ComponentFixture<GameSuiteCardComponent>;
+
+  const suiteStub: GameSuiteItem = {
+    suiteId: 'suite-1',
+    title: 'Suite Title',
+    imageUrl: 'image.png',
+    platforms: ["PS5"],
+    nbPlatinumTrophies: 1,
+    nbGoldTrophies: 2,
+    nbSilverTrophies: 3,
+    nbBronzeTrophies: 4,
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,8 +27,8 @@ describe('GameTrophySuiteCardComponent', () => {
 
     fixture = TestBed.createComponent(GameSuiteCardComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('trophySuite', {} as unknown as GameSuiteCardComponent)
-    fixture.componentRef.setInput('displayMode', GameTrophySuiteDisplayMode.SINGLE)
+    fixture.componentRef.setInput('suite', suiteStub)
+    fixture.componentRef.setInput('displayMode', GameSuiteDisplayMode.SINGLE)
     fixture.detectChanges();
   });
 
