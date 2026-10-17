@@ -1,27 +1,35 @@
-<div class="trophy-suite d-flex w-75">
-  <div class="image-wrapper d-flex align-items-center w-15 align-items-center">
-    <img [src]="suite().imageUrl" [alt]="suite().title">
+<div class="game-suite-card">
+  <img [ngSrc]="suite().imageUrl"
+       height="90" width="90"
+       [alt]="suite().title"
+       class="game-suite-card-image">
+
+  <div class="game-suite-card-description">
+    <div class="title">
+      {{ suite().title }}
+      <div class="platforms">
+        @for (platform of suite().platforms; track platform) {
+          <div class="badge bg-primary">{{ platform }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="trophies">
+      @for (trophyType of trophyTypes; track trophyType) {
+        <div class="trophy">
+          <img class="trophy-icon"
+               ngSrc="assets/icons/trophy-{{ trophyType }}.png"
+               alt="{{ trophyType }} trophy count"
+               height="32"
+               width="32">
+          <div class="trophy-count">{{ countTrophyByColor(trophyType) }}</div>
+        </div>
+      }
+    </div>
   </div>
 
-  <div class="d-flex gap-2 w-50 align-items-center">
-    <span class="fs-5">{{ suite().title }}</span>
-    @for (platform of suite().platforms; track platform) {
-      <div class="badge bg-primary">{{ platform }}</div>
-    }
-  </div>
-  <div class="d-flex gap-2 w-25 align-items-center justify-content-center">
-    @for (trophyType of trophyTypes; track trophyType) {
-      <div class="d-flex flex-column align-items-center">
-        <img ngSrc="assets/icons/trophy-{{ trophyType }}.png"
-             alt="{{ trophyType }} trophy count"
-             height="32"
-             width="32">
-        <b>{{ countTrophyByColor(trophyType) }}</b>
-      </div>
-    }
-  </div>
   @if (displayMode() == displayModes.MULTIPLE) {
-    <div class="d-flex gap-3 w-10 flex-column align-items-end justify-content-center">
+    <div class="game-suite-card-select">
       <button class="btn btn-primary" (click)="selectSuite.emit()">Select</button>
     </div>
   }

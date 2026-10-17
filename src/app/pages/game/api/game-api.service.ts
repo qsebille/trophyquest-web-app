@@ -39,11 +39,11 @@ export class GameApiService {
     suiteId: () => string | null,
     playerId: () => string | null,
   ) {
-    let params = new HttpParams();
-    if (playerId()) {
-      params = params.set('playerId', playerId() ?? '');
-    }
     return httpResource<GameTrophyItem[]>(() => {
+      let params = new HttpParams();
+      if (playerId()) {
+        params = params.set('playerId', playerId() ?? '');
+      }
       return suiteId() ? {url: `${this.apiUrl}/suite/${suiteId()}/trophies`, params} : undefined;
     });
   }

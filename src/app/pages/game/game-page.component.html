@@ -26,17 +26,19 @@
         } @else if (suites.error()) {
           <div class="alert alert-danger" role="alert">Failed to fetch suites</div>
         } @else if (suites.hasValue()) {
-          <tq-game-suite-list [suites]="suites.value()"
-                              [suiteId]="selectedSuiteId()"
-                              (selectSuite)="selectSuite($event)"/>
-          @if (trophies.isLoading()) {
-            <tq-spinner/>
-          } @else if (trophies.error()) {
-            <div class="alert alert-danger" role="alert">Failed to fetch suites</div>
-          } @else if (trophies.hasValue()) {
-            <tq-game-trophy-list [trophies]="trophies.value()"
-                                 [selectedPlayerId]="selectedPlayerId()"/>
-          }
+          <div class="trophy-panel">
+            <tq-game-suite-list [suites]="suites.value()"
+                                [suiteId]="selectedSuiteId()"
+                                (selectSuite)="selectSuite($event)"/>
+            @if (trophies.isLoading()) {
+              <tq-spinner/>
+            } @else if (trophies.error()) {
+              <div class="alert alert-danger" role="alert">Failed to fetch suites</div>
+            } @else if (trophies.hasValue()) {
+              <tq-game-trophy-list [trophies]="trophies.value()"
+                                   [selectedPlayerId]="selectedPlayerId()"/>
+            }
+          </div>
         }
       </ng-template>
     </li>

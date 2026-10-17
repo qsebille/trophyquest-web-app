@@ -1,0 +1,16 @@
+.game-trophy-filters {
+  display: flex;
+  gap: 3rem;
+  padding: 1rem;
+
+  .label {
+    font-size: .8rem;
+    opacity: .8;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
