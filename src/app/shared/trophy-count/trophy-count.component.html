@@ -1,0 +1,42 @@
+<div class="trophy-count">
+  @if (platinumCount() > 0) {
+    <div class="trophy">
+      <img class="trophy-icon"
+           ngSrc="assets/icons/trophy-platinum.png"
+           alt="Platinum trophy count"
+           [height]="size()"
+           [width]="size()">
+      <div class="trophy-count">{{ platinumCount() }}</div>
+    </div>
+  }
+  @if (goldCount() > 0) {
+    <div class="trophy">
+      <img class="trophy-icon"
+           ngSrc="assets/icons/trophy-gold.png"
+           alt="Gold trophy count"
+           [height]="size()"
+           [width]="size()">
+      <div class="trophy-count">{{ goldCount() }}</div>
+    </div>
+  }
+  @if (silverCount() > 0) {
+    <div class="trophy">
+      <img class="trophy-icon"
+           ngSrc="assets/icons/trophy-silver.png"
+           alt="Silver trophy count"
+           [height]="size()"
+           [width]="size()">
+      <div class="trophy-count">{{ silverCount() }}</div>
+    </div>
+  }
+  @if (bronzeCount() > 0) {
+    <div class="trophy">
+      <img class="trophy-icon"
+           ngSrc="assets/icons/trophy-bronze.png"
+           alt="Bronze trophy count"
+           [height]="size()"
+           [width]="size()">
+      <div class="trophy-count">{{ bronzeCount() }}</div>
+    </div>
+  }
+</div>

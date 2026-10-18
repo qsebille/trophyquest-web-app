@@ -1,0 +1,29 @@
+@use 'styles/variables/colors' as *;
+
+.game-search-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  .search-bar {
+    margin-top: 2rem;
+    width: 50%;
+  }
+
+  .game-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  .game-card {
+    margin: .5rem;
+  }
+
+  .load-more-button {
+    margin-bottom: 2rem;
+  }
+}

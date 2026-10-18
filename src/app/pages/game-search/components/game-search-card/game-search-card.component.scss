@@ -1,0 +1,37 @@
+@use 'styles/variables/colors' as *;
+
+.game-search-card {
+  padding: .5rem;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(12, 1fr);
+  border: .1rem solid $tq-blue-light;
+  border-radius: 1rem;
+  background-color: $tq-blue-lighter;
+
+  &-image {
+    grid-column: span 2;
+    width: auto;
+    border-radius: .5rem;
+  }
+
+  &-infos {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  &-players {
+    grid-column: span 2;
+    display: flex;
+    gap: .5rem;
+    color: $tq-blue-medium;
+    align-items: center;
+  }
+}

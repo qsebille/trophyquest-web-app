@@ -1,0 +1,31 @@
+<div class="game-search-page container container-fluid">
+  <div class="search-bar">
+    <input type="text"
+           placeholder="Search games..."
+           class="form-control"
+           #searchInput
+           [value]="query()"
+           (input)="changeSearchQuery(searchInput.value)"/>
+  </div>
+  <div class="game-cards">
+    @for (game of loadedGames(); track game; let i = $index) {
+      <tq-game-search-card [game]="game"
+                           (clickGameTitle)="clickGameTitle(game.gameId)"
+                           class="game-card"
+                           [style.animation-delay.ms]="200 + (i % size()) * 100"
+                           animate.enter="block-enter"/>
+    }
+  </div>
+
+  @if (games.hasValue()) {
+    @if (loadedGames().length < games.value().total) {
+      <div class="load-more-button">
+        <button class="btn btn-primary"
+                (click)="loadMore()"
+                [disabled]="games.isLoading()">
+          Load more
+        </button>
+      </div>
+    }
+  }
+</div>

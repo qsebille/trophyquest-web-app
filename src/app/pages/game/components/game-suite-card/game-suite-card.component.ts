@@ -3,11 +3,13 @@ import {NgOptimizedImage} from "@angular/common";
 import {GameSuiteItem} from '@game/models/game-suite-item';
 import {GameSuiteDisplayMode} from '@game/models/constants/suite-display-mode';
 import {TrophyType} from '@core/models/trophy-type.enum';
+import {TrophyCountComponent} from '../../../../shared/trophy-count/trophy-count.component';
 
 @Component({
   selector: 'tq-game-suite-card',
   imports: [
-    NgOptimizedImage
+    NgOptimizedImage,
+    TrophyCountComponent
   ],
   templateUrl: './game-suite-card.component.html',
   styleUrl: './game-suite-card.component.scss',

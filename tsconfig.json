@@ -27,6 +27,9 @@
       "@home/*": [
         "./src/app/pages/home/*"
       ],
+      "@game-search/*": [
+        "./src/app/pages/game-search/*"
+      ],
       "@game/*": [
         "./src/app/pages/game/*"
       ]

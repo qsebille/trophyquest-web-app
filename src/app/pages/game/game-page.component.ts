@@ -67,15 +67,9 @@ export class GamePageComponent {
         this.backgroundService.setBackground(this.store.background.value() ?? {url: ''});
       }
     });
-    effect(() => {
-      this.store.setSuiteId(this.selectedSuiteId());
-    });
-    effect(() => {
-      this.store.setPlayerId(this.selectedPlayerId());
-    });
-    effect(() => {
-      this.store.setPlayerPage(this.selectedPlayerPage());
-    });
+    effect(() => this.store.setSuiteId(this.selectedSuiteId()));
+    effect(() => this.store.setPlayerId(this.selectedPlayerId()));
+    effect(() => this.store.setPlayerPage(this.selectedPlayerPage()));
   }
 
   selectTab(tab: string): void {

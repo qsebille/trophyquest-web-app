@@ -14,17 +14,9 @@
       <span> recent trophies</span>
     </div>
 
-    <div class="player-recent-trophies-details">
-      @for (color of ['bronze', 'silver', 'gold', 'platinum']; track color) {
-        @if (getEarnedTrophyByType(color) > 0) {
-          <div class="player-trophy-count">
-            <img ngSrc="assets/icons/trophy-{{color}}.png"
-                 [height]="30" [width]="30"
-                 alt="{{color}} trophy"/>
-            <div class="player-trophy-count-value">{{ getEarnedTrophyByType(color) }}</div>
-          </div>
-        }
-      }
-    </div>
+    <tq-trophy-count [platinumCount]="player().nbRecentPlatinumTrophies"
+                     [goldCount]="player().nbRecentGoldTrophies"
+                     [silverCount]="player().nbRecentSilverTrophies"
+                     [bronzeCount]="player().nbRecentBronzeTrophies"/>
   </div>
 </div>

@@ -26,20 +26,4 @@
     font-weight: 700;
   }
 
-  .player-recent-trophies-details {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-
-  .player-trophy-count {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-
-    &-value {
-      font-size: .8rem;
-      font-weight: 400;
-    }
-  }
 }
