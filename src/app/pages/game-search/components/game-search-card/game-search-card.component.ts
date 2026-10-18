@@ -10,7 +10,7 @@ import {MatTooltip} from '@angular/material/tooltip';
     NgOptimizedImage,
     TrophyCountComponent,
     MatIcon,
-    MatTooltip
+    MatTooltip,
   ],
   selector: 'tq-game-search-card',
   styleUrl: './game-search-card.component.scss',
