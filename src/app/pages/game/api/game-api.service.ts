@@ -10,7 +10,7 @@ import {Pagination} from '@core/models/pagination';
 
 @Service()
 export class GameApiService {
-  private readonly apiUrl = `${environment.apiUrl}/game-details`;
+  private readonly apiUrl = `${environment.apiUrl}/game/details`;
 
 
   details(gameId: () => string | null) {

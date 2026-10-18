@@ -14,18 +14,10 @@
       </div>
     </div>
 
-    <div class="trophies">
-      @for (trophyType of trophyTypes; track trophyType) {
-        <div class="trophy">
-          <img class="trophy-icon"
-               ngSrc="assets/icons/trophy-{{ trophyType }}.png"
-               alt="{{ trophyType }} trophy count"
-               height="32"
-               width="32">
-          <div class="trophy-count">{{ countTrophyByColor(trophyType) }}</div>
-        </div>
-      }
-    </div>
+    <tq-trophy-count [platinumCount]="suite().nbPlatinumTrophies"
+                     [goldCount]="suite().nbGoldTrophies"
+                     [silverCount]="suite().nbSilverTrophies"
+                     [bronzeCount]="suite().nbBronzeTrophies"/>
   </div>
 
   @if (displayMode() == displayModes.MULTIPLE) {

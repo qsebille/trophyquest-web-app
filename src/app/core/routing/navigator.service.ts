@@ -13,6 +13,10 @@ export class NavigatorService {
     this.router.navigate(['/error']).then(() => console.info('Navigated to error page'));
   }
 
+  goToGameSearchPage(): void {
+    this.router.navigate(['/game-search']).then(() => console.info('Navigated to game search page'));
+  }
+
   goToGamePage(gameId: string): void {
     this.router.navigate(['/game', gameId]).then(() => console.info('Navigated to game page: ' + gameId));
   }

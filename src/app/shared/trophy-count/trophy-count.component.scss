@@ -1,0 +1,14 @@
+.trophy-count {
+  display: flex;
+  gap: 1rem;
+
+  .trophy {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    &-count {
+      font-size: .9rem;
+    }
+  }
+}

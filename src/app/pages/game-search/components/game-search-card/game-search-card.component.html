@@ -1,0 +1,19 @@
+<div class="game-search-card">
+  <img class="game-search-card-image"
+       [ngSrc]="game().coverUrl" height="100" width="75" alt="{{ game().title }} image"/>
+
+  <div class="game-search-card-infos">
+    <div class="title tq-link" (click)="clickGameTitle.emit()">{{ game().title }}</div>
+
+    <tq-trophy-count class="game-search-card-trophies"
+                     [platinumCount]="game().nbPlatinumTrophies"
+                     [goldCount]="game().nbGoldTrophies"
+                     [silverCount]="game().nbSilverTrophies"
+                     [bronzeCount]="game().nbBronzeTrophies"/>
+  </div>
+
+  <div class="game-search-card-players" matTooltip="Players of this game">
+    <mat-icon class="player-icon">groups</mat-icon>
+    <div class="player-count">{{ game().nbPlayers }}</div>
+  </div>
+</div>

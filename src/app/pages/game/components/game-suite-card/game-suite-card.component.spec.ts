@@ -4,7 +4,7 @@ import {GameSuiteCardComponent} from './game-suite-card.component';
 import {GameSuiteDisplayMode} from '@game/models/constants/suite-display-mode';
 import {GameSuiteItem} from '@game/models/game-suite-item';
 
-describe('GameTrophySuiteCardComponent', () => {
+describe('GameSuiteCardComponent', () => {
   let component: GameSuiteCardComponent;
   let fixture: ComponentFixture<GameSuiteCardComponent>;
 

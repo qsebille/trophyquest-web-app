@@ -36,21 +36,6 @@
     gap: .5rem;
   }
 
-  .trophies {
-    display: flex;
-    gap: 1rem;
-
-    .trophy {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-
-      &-count {
-        font-size: .9rem;
-      }
-    }
-  }
-
   &-select {
     padding: 1rem;
     grid-column: span 2;
