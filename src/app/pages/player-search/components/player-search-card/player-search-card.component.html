@@ -1,0 +1,22 @@
+<div class="player-search-card">
+  <img class="player-search-card-avatar"
+       [ngSrc]="player().avatarUrl"
+       height="80"
+       width="80"
+       alt="{{ player().pseudo }} avatar"/>
+
+  <div class="player-search-card-infos">
+    <div class="pseudo">{{ player().pseudo }}</div>
+
+    <div class="games" matTooltip="Played games">
+      <mat-icon>sports_esports</mat-icon>
+      <div>{{ player().nbPlayedSuites }}</div>
+    </div>
+
+    <tq-trophy-count [platinumCount]="player().nbEarnedPlatinumTrophies"
+                     [goldCount]="player().nbEarnedGoldTrophies"
+                     [silverCount]="player().nbEarnedSilverTrophies"
+                     [bronzeCount]="player().nbEarnedBronzeTrophies"/>
+  </div>
+
+</div>

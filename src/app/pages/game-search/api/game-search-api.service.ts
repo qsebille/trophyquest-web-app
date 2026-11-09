@@ -9,7 +9,6 @@ import {GameSearchItem} from '@game-search/models/game-search-item.model';
 export class GameSearchApiService {
   private readonly apiUrl = `${environment.apiUrl}/game/search`;
 
-
   games(query: () => string | null,
         page: () => number,
         size: () => number) {

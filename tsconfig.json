@@ -32,6 +32,9 @@
       ],
       "@game/*": [
         "./src/app/pages/game/*"
+      ],
+      "@player-search/*": [
+        "./src/app/pages/player-search/*"
       ]
     }
   },
