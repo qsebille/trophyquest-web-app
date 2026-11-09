@@ -1,0 +1,29 @@
+<div class="player-search-page container container-fluid">
+  <div class="search-bar">
+    <input type="text"
+           placeholder="Search players"
+           class="form-control"
+           #searchInput
+           [value]="query()"
+           (input)="changeSearchQuery(searchInput.value)"/>
+  </div>
+
+  <div class="player-cards">
+    @for (player of loadedPlayers(); track player.id; let i = $index) {
+      <tq-player-search-card [player]="player"
+                             class="player-card"
+                             [style.animation-delay.ms]="200 + (i % size()) * 100"
+                             animate.enter="block-enter"/>
+    }
+  </div>
+
+  @if (players.hasValue() && loadedPlayers().length < players.value().total) {
+    <div class="load-more-button">
+      <button class="btn btn-primary"
+              (click)="loadMore()"
+              [disabled]="players.isLoading()">
+        Load more
+      </button>
+    </div>
+  }
+</div>
