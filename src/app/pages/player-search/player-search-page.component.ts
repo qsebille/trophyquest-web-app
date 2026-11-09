@@ -4,18 +4,20 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
 import {PlayerSearchStoreService} from './api/player-search-store.service';
 import {PlayerSearchCardComponent} from './components/player-search-card/player-search-card.component';
+import {BackgroundService} from '@core/background/background.service';
 
 @Component({
   imports: [PlayerSearchCardComponent],
   selector: 'tq-player-search',
-  styleUrl: './player-search.component.scss',
-  templateUrl: './player-search.component.html',
+  styleUrl: './player-search-page.component.scss',
+  templateUrl: './player-search-page.component.html',
 })
-export class PlayerSearchComponent {
+export class PlayerSearchPageComponent {
   private readonly store = inject(PlayerSearchStoreService);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly searchQueryChanges = new Subject<string>();
+  private readonly backgroundService = inject(BackgroundService);
 
   readonly query = input('', {
     alias: 'query',
@@ -28,6 +30,11 @@ export class PlayerSearchComponent {
 
   constructor() {
     effect(() => this.store.setQuery(this.query()));
+    effect(() => {
+      if (this.store.background.hasValue()) {
+        this.backgroundService.setBackground(this.store.background.value())
+      }
+    });
 
     this.searchQueryChanges.pipe(
       debounceTime(400),

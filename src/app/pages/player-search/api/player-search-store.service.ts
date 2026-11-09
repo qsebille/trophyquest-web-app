@@ -15,6 +15,8 @@ export class PlayerSearchStoreService {
   readonly loadedPlayers = this._loadedPlayers.asReadonly();
   readonly size = this._size.asReadonly();
 
+  readonly background = this.api.background();
+
   constructor() {
     effect(() => {
       const response = this.players.value();
