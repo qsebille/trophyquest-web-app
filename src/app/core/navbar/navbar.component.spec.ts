@@ -23,9 +23,9 @@ describe('NavbarComponent', () => {
       imports: [NavbarComponent],
       providers: [
         provideRouter([
-          {path: 'players', component: DummyComponent},
-          {path: 'igdb-mapping', component: DummyComponent},
+          {path: 'home', component: DummyComponent},
           {path: 'game-search', component: DummyComponent},
+          {path: 'player-search', component: DummyComponent},
         ]),
       ],
     }).compileComponents();
@@ -46,14 +46,21 @@ describe('NavbarComponent', () => {
     expect(title?.textContent?.trim()).toBe('TrophyQuest');
   });
 
-  it('should link to the players page when clicking on link', async () => {
-    const playersLink = fixture.debugElement.query(By.css('#navbar-players-link'));
-    playersLink.nativeElement.click();
+  it('should link to home page when clicking on trophyquest logo', async () => {
+    const logo = fixture.debugElement.query(By.css('#navbar-trophyquest-logo'));
+    logo.nativeElement.click();
     await fixture.whenStable();
-    expect(router.url).toBe('/players');
+    expect(router.url).toBe('/home');
   });
 
-  it('should link to the game search page when clicking on link', async () => {
+  it('should link to player search page when clicking on link', async () => {
+    const playersLink = fixture.debugElement.query(By.css('#navbar-player-search-link'));
+    playersLink.nativeElement.click();
+    await fixture.whenStable();
+    expect(router.url).toBe('/player-search');
+  });
+
+  it('should link to game search page when clicking on link', async () => {
     const gameSearchLink = fixture.debugElement.query(By.css('#navbar-game-search-link'));
     gameSearchLink.nativeElement.click();
     await fixture.whenStable();

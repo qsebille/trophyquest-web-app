@@ -1,12 +1,12 @@
 <nav class="navbar">
-  <div class="navbar-left" routerLink="/home">
+  <div class="navbar-left" routerLink="/home" id="navbar-trophyquest-logo">
     <img alt="" class="navbar-logo" height="32" ngSrc="/assets/icons/trophyquest-icon-32.png" width="32"/>
     <span class="navbar-title">TrophyQuest</span>
   </div>
 
   <ul class="navbar-links">
     <li><a id="navbar-game-search-link" routerLink="/game-search" routerLinkActive="active">Games</a></li>
-    <li><a id="navbar-players-link" routerLink="/player-search" routerLinkActive="active">Players</a></li>
+    <li><a id="navbar-player-search-link" routerLink="/player-search" routerLinkActive="active">Players</a></li>
   </ul>
 
   @if (authService.isAuthenticated()) {
