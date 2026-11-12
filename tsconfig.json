@@ -35,6 +35,9 @@
       ],
       "@player-search/*": [
         "./src/app/pages/player-search/*"
+      ],
+      "@association/*": [
+        "./src/app/pages/association/*"
       ]
     }
   },
