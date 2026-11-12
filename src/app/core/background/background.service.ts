@@ -7,7 +7,11 @@ export class BackgroundService {
 
   readonly image = this._image.asReadonly();
 
-  setBackground(response: BackgroundImageResponse) {
-    this._image.set(response);
+  setBackground(background: BackgroundImageResponse | null): void {
+    if (null == background) {
+      this._image.set({url: ''});
+      return;
+    }
+    this._image.set(background);
   }
 }

@@ -19,7 +19,7 @@ export class GameSearchApiService {
       if (query() !== null) {
         params = params.set('query', query() ?? '');
       }
-      return {url: `${this.apiUrl}`, params};
+      return {url: this.apiUrl, params};
     });
   }
 
