@@ -8,7 +8,7 @@
   </div>
 
   <div class="suite-content">
-    <span class="fs-6">{{ suite().title }}</span>
+    <span class="fs-6" [matTooltip]="suite().title">{{ suite().title }}</span>
 
     <div class="suite-platforms">
       @for (platform of suite().platforms; track platform) {

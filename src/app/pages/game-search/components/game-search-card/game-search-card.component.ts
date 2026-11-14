@@ -1,7 +1,7 @@
 import {Component, input, output} from '@angular/core';
 import {GameSearchItem} from '@game-search/models/game-search-item.model';
 import {NgOptimizedImage} from '@angular/common';
-import {TrophyCountComponent} from '../../../../shared/trophy-count/trophy-count.component';
+import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component';
 import {MatIcon} from '@angular/material/icon';
 import {MatTooltip} from '@angular/material/tooltip';
 

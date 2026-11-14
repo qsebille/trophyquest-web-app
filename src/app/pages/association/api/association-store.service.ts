@@ -26,6 +26,7 @@ export class AssociationStoreService {
 
   init(): void {
     this.page.set(0);
+    this.associationPagination.reload();
   }
 
   nextPage(): void {
