@@ -1,0 +1,60 @@
+<main class="player-profile-page">
+  @if (summary.isLoading()) {
+    <tq-spinner/>
+  } @else if (summary.error()) {
+    <div class="profile-error" role="alert">
+      {{ playerNotFound ? 'Player not found.' : 'Failed to load player profile.' }}
+      @if (!playerNotFound) {
+        <button class="profile-action" type="button" (click)="summary.reload()">Retry</button>
+      }
+    </div>
+  } @else if (summary.hasValue()) {
+    <tq-player-summary [player]="summary.value()"/>
+
+    <div class="profile-activity">
+      <section class="profile-section" aria-labelledby="suites-heading" [attr.aria-busy]="suites.resource.isLoading()">
+        <h2 id="suites-heading">Played suites</h2>
+        <div class="suite-list">
+          @for (suite of suites.items(); track suite.suiteId) {
+            <tq-player-suite-card [suite]="suite" [playerId]="playerId()"/>
+          }
+        </div>
+        @if (suites.resource.isLoading()) {
+          <tq-spinner/>
+        } @else if (suites.resource.error()) {
+          <p class="profile-error" role="alert">Failed to load suites. Please try again.</p>
+        } @else if (suites.items().length === 0) {
+          <p class="profile-empty">No played suites yet.</p>
+        }
+        @if (suites.hasMore() || suites.resource.error()) {
+          <button class="profile-action" type="button" [disabled]="suites.resource.isLoading()"
+                  (click)="suites.loadMore()" aria-label="Load more suites">
+            {{ suites.resource.error() ? 'Retry' : suites.resource.isLoading() ? 'Loading…' : 'Load more' }}
+          </button>
+        }
+      </section>
+
+      <section class="profile-section" aria-labelledby="trophies-heading" [attr.aria-busy]="trophies.resource.isLoading()">
+        <h2 id="trophies-heading">Earned trophies</h2>
+        <div class="trophy-list">
+          @for (trophy of trophies.items(); track trophy.trophyId) {
+            <tq-player-trophy-card [trophy]="trophy" [playerId]="playerId()"/>
+          }
+        </div>
+        @if (trophies.resource.isLoading()) {
+          <tq-spinner/>
+        } @else if (trophies.resource.error()) {
+          <p class="profile-error" role="alert">Failed to load trophies. Please try again.</p>
+        } @else if (trophies.items().length === 0) {
+          <p class="profile-empty">No earned trophies yet.</p>
+        }
+        @if (trophies.hasMore() || trophies.resource.error()) {
+          <button class="profile-action" type="button" [disabled]="trophies.resource.isLoading()"
+                  (click)="trophies.loadMore()" aria-label="Load more trophies">
+            {{ trophies.resource.error() ? 'Retry' : trophies.resource.isLoading() ? 'Loading…' : 'Load more' }}
+          </button>
+        }
+      </section>
+    </div>
+  }
+</main>

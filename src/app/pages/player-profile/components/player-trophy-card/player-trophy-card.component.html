@@ -1,0 +1,18 @@
+<article class="trophy-card">
+  @if (trophy().iconUrl) {
+    <img class="trophy-icon" [src]="trophy().iconUrl" width="56" height="56" alt="" loading="lazy"/>
+  }
+  <div class="trophy-details">
+    <h3>{{ trophy().title }}</h3>
+    <p>{{ trophy().description }}</p>
+    @if (trophy().gameId !== null) {
+      <a [routerLink]="['/game', trophy().gameId]"
+         [queryParams]="{tab: 'trophies', suiteId: trophy().suiteId, playerId: playerId()}">{{ trophy().suiteTitle }}</a>
+    } @else {
+      <span>{{ trophy().suiteTitle }}</span>
+    }
+    <time class="trophy-date" [attr.datetime]="trophy().earnedAt">Earned {{ trophy().earnedAt | date: 'medium' }}</time>
+  </div>
+  <img class="trophy-color" [src]="'/assets/icons/trophy-' + trophy().color + '.png'"
+       width="28" height="28" [alt]="trophy().color + ' trophy'"/>
+</article>

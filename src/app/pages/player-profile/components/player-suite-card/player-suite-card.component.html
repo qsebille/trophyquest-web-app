@@ -1,0 +1,30 @@
+<article class="suite-card" [class.suite-card-complete]="isComplete()"
+         [style.--suite-progress]="completionPercent() + '%'">
+  @if (isComplete()) {
+    <mat-icon class="suite-completion-icon" role="img" aria-label="Suite complete" [attr.aria-hidden]="false">check</mat-icon>
+  }
+  <img class="suite-cover" [src]="suite().imageUrl || '/assets/icons/missing-game-image.svg'"
+       width="72" height="72" alt="" loading="lazy"/>
+  <div class="suite-details">
+    @if (suite().gameId !== null) {
+      <a class="suite-title" [routerLink]="['/game', suite().gameId]"
+         [queryParams]="{tab: 'trophies', suiteId: suite().suiteId, playerId: playerId()}">{{ suite().title }}</a>
+    } @else {
+      <span class="suite-title">{{ suite().title }}</span>
+    }
+    <span class="suite-platforms">{{ suite().platforms.join(' · ') }}</span>
+    @if (suite().lastPlayedAt) {
+      <time class="suite-date" [attr.datetime]="suite().lastPlayedAt">Last played {{ suite().lastPlayedAt | date: 'mediumDate' }}</time>
+    }
+    <div class="suite-progress" role="progressbar"
+         [attr.aria-label]="suite().title + ' trophy completion'"
+         aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="completionPercent()"
+         [attr.aria-valuetext]="earnedTrophyCount() + ' / ' + trophyCount() + ' trophies'">
+      {{ earnedTrophyCount() }} / {{ trophyCount() }} trophies · {{ completionPercent() }}%
+    </div>
+    <tq-trophy-count [platinumCount]="suite().nbEarnedPlatinumTrophies"
+                   [goldCount]="suite().nbEarnedGoldTrophies"
+                   [silverCount]="suite().nbEarnedSilverTrophies"
+                   [bronzeCount]="suite().nbEarnedBronzeTrophies"/>
+  </div>
+</article>

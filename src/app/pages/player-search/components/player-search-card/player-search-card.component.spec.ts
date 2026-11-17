@@ -1,3 +1,4 @@
+import {provideRouter} from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PlayerSearchCardComponent } from './player-search-card.component';
 import {PlayerSearchItem} from '../../models/player-search-item';
@@ -8,7 +9,8 @@ describe('PlayerSearchCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlayerSearchCardComponent]
+      imports: [PlayerSearchCardComponent],
+      providers: [provideRouter([])]
     })
       .compileComponents();
 
@@ -30,4 +32,8 @@ describe('PlayerSearchCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('links to the player profile', () => {
+    expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe('/player/player-001');
+  });
+
 });

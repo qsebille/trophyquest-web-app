@@ -1,11 +1,13 @@
+import {RouterLink} from '@angular/router';
 import {Component, computed, input, output} from '@angular/core';
 import {DecimalPipe, NgOptimizedImage} from "@angular/common";
 import {HomePlayerItem} from '@home/api/models/home-player-item';
-import {TrophyCountComponent} from '../../../../shared/trophy-count/trophy-count.component';
+import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component';
 
 @Component({
   selector: 'tq-home-player-card',
   imports: [
+    RouterLink,
     NgOptimizedImage,
     DecimalPipe,
     TrophyCountComponent
