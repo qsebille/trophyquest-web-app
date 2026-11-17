@@ -9,11 +9,8 @@
   </div>
 
   <div class="player-cards">
-    @for (player of loadedPlayers(); track player.id; let i = $index) {
-      <tq-player-search-card [player]="player"
-                             class="player-card"
-                             [style.animation-delay.ms]="200 + (i % size()) * 100"
-                             animate.enter="block-enter"/>
+    @for (player of loadedPlayers(); track player.id) {
+      <tq-player-search-card [player]="player" class="player-card"/>
     }
   </div>
 

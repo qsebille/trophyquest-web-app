@@ -4,7 +4,6 @@ import {HomeApiService} from '@home/api/home-api.service';
 import {HomeGameCardComponent} from '@home/components/game-card/home-game-card.component';
 import {SpinnerComponent} from '@core/spinner/spinner.component';
 import {HomePlayerCardComponent} from '@home/components/player-card/home-player-card.component';
-import {NavigatorService} from '@core/routing/navigator.service';
 
 
 @Component({
@@ -19,7 +18,6 @@ import {NavigatorService} from '@core/routing/navigator.service';
 export class HomePageComponent {
   private readonly backgroundService = inject(BackgroundService);
   private readonly homeApiService = inject(HomeApiService);
-  private readonly navigator = inject(NavigatorService);
 
   readonly games = this.homeApiService.topGames(() => 10);
   readonly players = this.homeApiService.topPlayers(() => 10);
@@ -33,13 +31,5 @@ export class HomePageComponent {
         );
       }
     });
-  }
-
-  goToGamePage(gameId: string) {
-    this.navigator.goToGamePage(gameId);
-  }
-
-  goToPlayerPage(playerId: string) {
-    this.navigator.goToPlayerPage(playerId);
   }
 }

@@ -3,7 +3,7 @@
        [ngSrc]="game().coverUrl" height="100" width="75" alt="{{ game().title }} image"/>
 
   <div class="game-search-card-infos">
-    <div class="title tq-link" (click)="clickGameTitle.emit()">{{ game().title }}</div>
+    <a class="title tq-link" [routerLink]="['/game', game().gameId]">{{ game().title }}</a>
 
     <tq-trophy-count class="game-search-card-trophies"
                      [platinumCount]="game().nbPlatinumTrophies"

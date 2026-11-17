@@ -10,7 +10,6 @@
   <div class="game-cards">
     @for (game of loadedGames(); track game; let i = $index) {
       <tq-game-search-card [game]="game"
-                           (clickGameTitle)="clickGameTitle(game.gameId)"
                            class="game-card"
                            [style.animation-delay.ms]="200 + (i % size()) * 100"
                            animate.enter="block-enter"/>

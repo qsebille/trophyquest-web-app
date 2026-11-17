@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {provideRouter} from '@angular/router';
 
 import {HomeGameCardComponent} from './home-game-card.component';
 import {HomeGameItem} from '@home/api/models/home-game-item';
@@ -16,7 +17,8 @@ describe('HomeGameCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeGameCardComponent]
+      imports: [HomeGameCardComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeGameCardComponent);
@@ -27,5 +29,9 @@ describe('HomeGameCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('links to the game page', () => {
+    expect(fixture.nativeElement.querySelector('a.game-title').getAttribute('href')).toBe('/game/001');
   });
 });

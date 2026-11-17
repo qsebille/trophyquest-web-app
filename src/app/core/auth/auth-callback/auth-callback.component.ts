@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
-import {NavigatorService} from '../../routing/navigator.service';
 
 @Component({
   selector: 'tq-auth-callback',
@@ -10,20 +9,20 @@ import {NavigatorService} from '../../routing/navigator.service';
   styleUrl: './auth-callback.component.scss',
 })
 export class AuthCallbackComponent {
-  private readonly _route = inject(ActivatedRoute);
-  private readonly _authService = inject(AuthService);
-  private readonly _navigator = inject(NavigatorService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   async ngOnInit(): Promise<void> {
-    const code = this._route.snapshot.queryParamMap.get('code');
-    const state = this._route.snapshot.queryParamMap.get('state');
+    const code = this.route.snapshot.queryParamMap.get('code');
+    const state = this.route.snapshot.queryParamMap.get('state');
 
     try {
-      await this._authService.handleCallback(code, state);
-      this._authService.refreshCurrentUser();
-      this._navigator.goToHomePage();
+      await this.authService.handleCallback(code, state);
+      this.authService.refreshCurrentUser();
+      void this.router.navigate(['/']);
     } catch {
-      this._navigator.goToErrorPage();
+      void this.router.navigate(['/error']);
     }
   }
 }
