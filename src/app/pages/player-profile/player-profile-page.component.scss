@@ -53,9 +53,19 @@
   color: $tq-white;
   cursor: pointer;
 
-  &:hover:not(:disabled) { background: $tq-blue-dark; }
-  &:disabled { opacity: .6; cursor: wait; }
-  &:focus-visible { outline: 3px solid $tq-blue-light; outline-offset: 3px; }
+  &:hover:not(:disabled) {
+    background: $tq-blue-dark;
+  }
+
+  &:disabled {
+    opacity: .6;
+    cursor: wait;
+  }
+
+  &:focus-visible {
+    outline: 3px solid $tq-blue-light;
+    outline-offset: 3px;
+  }
 }
 
 .profile-error {
@@ -66,4 +76,7 @@
   margin: 0;
 }
 
-.profile-empty { color: $tq-gray-medium; margin: 0; }
+.profile-empty {
+  color: $tq-gray-medium;
+  margin: 0;
+}

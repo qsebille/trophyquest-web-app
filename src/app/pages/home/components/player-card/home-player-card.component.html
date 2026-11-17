@@ -5,7 +5,7 @@
        class="player-avatar"/>
 
   <div class="player-infos">
-    <a class="player-pseudo tq-link" [routerLink]="['/player', player().playerId]" (click)="clickOnPseudo.emit()">
+    <a class="player-pseudo tq-link" (click)="clickOnPseudo.emit(player().playerId)">
       {{ player().pseudo }}
     </a>
 

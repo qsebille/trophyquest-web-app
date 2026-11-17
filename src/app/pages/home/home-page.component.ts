@@ -38,4 +38,8 @@ export class HomePageComponent {
   goToGamePage(gameId: string) {
     this.navigator.goToGamePage(gameId);
   }
+
+  goToPlayerPage(playerId: string) {
+    this.navigator.goToPlayerPage(playerId);
+  }
 }
