@@ -1,4 +1,5 @@
 @use 'styles/variables/colors' as *;
+
 .player-summary {
   display: flex;
   flex-wrap: wrap;
@@ -9,9 +10,21 @@
   color: $tq-blue-medium;
   border-radius: 1rem;
 }
-.player-avatar { border-radius: 50%; object-fit: cover; }
+
+.player-avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .player-details {
   min-width: 0;
-  h1 { font-size: 1.75rem; overflow-wrap: anywhere; }
-  p { color: $tq-gray-medium; }
+
+  h1 {
+    font-size: 1.75rem;
+    overflow-wrap: anywhere;
+  }
+
+  p {
+    color: $tq-gray-medium;
+  }
 }

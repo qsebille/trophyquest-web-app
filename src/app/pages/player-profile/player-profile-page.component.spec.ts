@@ -39,7 +39,7 @@ describe('PlayerProfilePageComponent', () => {
   };
   const listRequest = (player: string, list: string, page: number) => http.expectOne(request =>
     request.url === `${baseUrl}/${player}/${list}` && request.params.get('page') === `${page}`
-      && request.params.get('size') === '10');
+    && request.params.get('size') === '10');
   const button = (list: string): HTMLButtonElement | null => fixture.nativeElement.querySelector(
     `button[aria-label="Load more ${list}"]`);
 
@@ -48,8 +48,18 @@ describe('PlayerProfilePageComponent', () => {
     await render();
     http.expectOne(`${baseUrl}/player-1`).flush(summary);
     http.expectOne(`${baseUrl}/player-1/background`).flush({url: 'player-1-background.png'});
-    listRequest('player-1', 'suites', 0).flush({content: suiteTotal ? Array.from({length: 10}, (_, i) => suite(i)) : [], total: suiteTotal, page: 0, size: 10});
-    listRequest('player-1', 'trophies', 0).flush({content: trophyTotal ? Array.from({length: 10}, (_, i) => trophy(i)) : [], total: trophyTotal, page: 0, size: 10});
+    listRequest('player-1', 'suites', 0).flush({
+      content: suiteTotal ? Array.from({length: 10}, (_, i) => suite(i)) : [],
+      total: suiteTotal,
+      page: 0,
+      size: 10
+    });
+    listRequest('player-1', 'trophies', 0).flush({
+      content: trophyTotal ? Array.from({length: 10}, (_, i) => trophy(i)) : [],
+      total: trophyTotal,
+      page: 0,
+      size: 10
+    });
     await render();
   }
 

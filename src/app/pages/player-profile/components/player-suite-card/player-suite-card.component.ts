@@ -1,13 +1,13 @@
 import {Component, computed, input} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
-import {RouterLink} from '@angular/router';
 import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component';
 import {PlayerSuiteItem} from '../../models/player-suite-item';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'tq-player-suite-card',
-  imports: [DatePipe, RouterLink, MatIcon, TrophyCountComponent],
+  imports: [RouterLink, DatePipe, MatIcon, TrophyCountComponent],
   templateUrl: './player-suite-card.component.html',
   styleUrl: './player-suite-card.component.scss',
 })

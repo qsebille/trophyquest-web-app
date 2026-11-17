@@ -34,7 +34,8 @@
         }
       </section>
 
-      <section class="profile-section" aria-labelledby="trophies-heading" [attr.aria-busy]="trophies.resource.isLoading()">
+      <section class="profile-section" aria-labelledby="trophies-heading"
+               [attr.aria-busy]="trophies.resource.isLoading()">
         <h2 id="trophies-heading">Earned trophies</h2>
         <div class="trophy-list">
           @for (trophy of trophies.items(); track trophy.trophyId) {
