@@ -6,7 +6,7 @@
        alt="{{ player().pseudo }} avatar"/>
 
   <div class="player-search-card-infos">
-    <div class="pseudo">{{ player().pseudo }}</div>
+    <a class="pseudo tq-link" [routerLink]="['/player', player().id]">{{ player().pseudo }}</a>
 
     <div class="games" matTooltip="Played games">
       <mat-icon>sports_esports</mat-icon>

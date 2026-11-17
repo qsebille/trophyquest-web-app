@@ -1,7 +1,7 @@
 import {Component, computed, input, output} from '@angular/core';
 import {DecimalPipe, NgOptimizedImage} from "@angular/common";
 import {HomePlayerItem} from '@home/api/models/home-player-item';
-import {TrophyCountComponent} from '../../../../shared/trophy-count/trophy-count.component';
+import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component';
 
 @Component({
   selector: 'tq-home-player-card',
@@ -15,7 +15,7 @@ import {TrophyCountComponent} from '../../../../shared/trophy-count/trophy-count
 })
 export class HomePlayerCardComponent {
   readonly player = input.required<HomePlayerItem>();
-  readonly clickOnPseudo = output();
+  readonly clickOnPseudo = output<string>();
 
   readonly nbRecentlyEarnedTrophies = computed(() => {
     return this.player().nbRecentBronzeTrophies +

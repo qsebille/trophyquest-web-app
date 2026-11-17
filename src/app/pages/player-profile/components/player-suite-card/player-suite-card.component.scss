@@ -1,0 +1,68 @@
+@use 'styles/variables/colors' as *;
+
+.suite-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  height: 100%;
+  padding: 1rem;
+  background: linear-gradient(
+    to right,
+    $tq-green-lighter 0%,
+    $tq-green-lighter var(--suite-progress, 0%),
+    $tq-blue-lighter var(--suite-progress, 0%),
+    $tq-blue-lighter 100%
+  );
+  border: 1px solid $tq-blue-light;
+  border-radius: .75rem;
+}
+
+.suite-card-complete {
+  padding-right: 3rem;
+  background: $tq-green-lighter;
+  border-color: $tq-green-medium;
+}
+
+.suite-completion-icon {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  color: $tq-green-dark;
+}
+
+.suite-progress {
+  color: $tq-blue-medium;
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+.suite-cover {
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: .5rem;
+}
+
+.suite-details {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  min-width: 0;
+}
+
+.suite-title {
+  font-weight: 700;
+  color: $tq-blue-medium;
+  overflow-wrap: anywhere;
+}
+
+.suite-platforms, .suite-date {
+  color: $tq-gray-medium;
+  font-size: .85rem;
+}
+
+@media (max-width: 400px) {
+  .suite-card {
+    flex-direction: column;
+  }
+}

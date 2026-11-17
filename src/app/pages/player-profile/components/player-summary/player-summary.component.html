@@ -1,0 +1,12 @@
+<header class="player-summary">
+  <img class="player-avatar" [src]="player().avatarUrl || '/assets/icons/user.svg'"
+       width="96" height="96" [alt]="player().pseudo + ' avatar'"/>
+  <div class="player-details">
+    <h1>{{ player().pseudo }}</h1>
+    <p>{{ player().nbPlayedSuites }} played games</p>
+    <tq-trophy-count [platinumCount]="player().nbEarnedPlatinumTrophies"
+                     [goldCount]="player().nbEarnedGoldTrophies"
+                     [silverCount]="player().nbEarnedSilverTrophies"
+                     [bronzeCount]="player().nbEarnedBronzeTrophies"/>
+  </div>
+</header>

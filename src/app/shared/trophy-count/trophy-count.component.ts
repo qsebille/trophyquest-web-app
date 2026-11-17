@@ -1,9 +1,10 @@
 import {Component, input} from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
+import {DecimalPipe, NgOptimizedImage} from "@angular/common";
 
 @Component({
   imports: [
-    NgOptimizedImage
+    NgOptimizedImage,
+    DecimalPipe
   ],
   selector: 'tq-trophy-count',
   styleUrl: './trophy-count.component.scss',

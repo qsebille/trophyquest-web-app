@@ -19,7 +19,7 @@ describe('HomePlayerCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomePlayerCardComponent]
+      imports: [HomePlayerCardComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomePlayerCardComponent);

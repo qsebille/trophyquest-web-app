@@ -6,7 +6,7 @@
            alt="Platinum trophy count"
            [height]="size()"
            [width]="size()">
-      <div class="trophy-count">{{ platinumCount() }}</div>
+      <div class="trophy-count">{{ platinumCount() | number }}</div>
     </div>
   }
   @if (goldCount() > 0) {
@@ -16,7 +16,7 @@
            alt="Gold trophy count"
            [height]="size()"
            [width]="size()">
-      <div class="trophy-count">{{ goldCount() }}</div>
+      <div class="trophy-count">{{ goldCount() | number }}</div>
     </div>
   }
   @if (silverCount() > 0) {
@@ -26,7 +26,7 @@
            alt="Silver trophy count"
            [height]="size()"
            [width]="size()">
-      <div class="trophy-count">{{ silverCount() }}</div>
+      <div class="trophy-count">{{ silverCount() | number }}</div>
     </div>
   }
   @if (bronzeCount() > 0) {
@@ -36,7 +36,7 @@
            alt="Bronze trophy count"
            [height]="size()"
            [width]="size()">
-      <div class="trophy-count">{{ bronzeCount() }}</div>
+      <div class="trophy-count">{{ bronzeCount() | number }}</div>
     </div>
   }
 </div>

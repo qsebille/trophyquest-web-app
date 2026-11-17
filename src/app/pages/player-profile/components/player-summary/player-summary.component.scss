@@ -1,0 +1,30 @@
+@use 'styles/variables/colors' as *;
+
+.player-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: $tq-white;
+  color: $tq-blue-medium;
+  border-radius: 1rem;
+}
+
+.player-avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.player-details {
+  min-width: 0;
+
+  h1 {
+    font-size: 1.75rem;
+    overflow-wrap: anywhere;
+  }
+
+  p {
+    color: $tq-gray-medium;
+  }
+}
