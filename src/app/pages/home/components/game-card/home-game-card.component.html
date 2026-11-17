@@ -2,7 +2,7 @@
   <img class="game-image" [width]="80" [height]="120" [ngSrc]="game().coverUrl" [alt]="game().title"/>
 
   <div class="game-info">
-    <div class="game-title tq-link" (click)="clickGameTitle.emit()">{{ game().title }}</div>
+    <a class="game-title tq-link" [routerLink]="['/game', game().gameId]">{{ game().title }}</a>
     <div class="nb-players">
       <mat-icon>groups</mat-icon>
       <span>{{ game().nbRecentPlayers }} player{{ game().nbRecentPlayers > 1 ? 's' : '' }}</span>

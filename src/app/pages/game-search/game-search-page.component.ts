@@ -3,7 +3,6 @@ import {GameSearchStoreService} from './api/game-search-store.service';
 import {GameSearchCardComponent} from '@game-search/components/game-search-card/game-search-card.component';
 import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {NavigatorService} from '@core/routing/navigator.service';
 import {BackgroundService} from '@core/background/background.service';
 import {Router} from '@angular/router';
 
@@ -19,7 +18,6 @@ export class GameSearchPageComponent {
   private router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly searchQueryChanges = new Subject<string>();
-  private readonly navigator = inject(NavigatorService);
   private readonly backgroundService = inject(BackgroundService);
 
   readonly query = input(null, {
@@ -52,10 +50,6 @@ export class GameSearchPageComponent {
 
   changeSearchQuery(query: string) {
     this.searchQueryChanges.next(query);
-  }
-
-  clickGameTitle(gameId: string) {
-    this.navigator.goToGamePage(gameId);
   }
 
   loadMore() {

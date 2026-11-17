@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {provideRouter} from '@angular/router';
 import {GameSearchCardComponent} from './game-search-card.component';
 import {GameSearchItem} from '@game-search/models/game-search-item.model';
 
@@ -14,7 +15,8 @@ describe('GameSearchCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GameSearchCardComponent]
+      imports: [GameSearchCardComponent],
+      providers: [provideRouter([])],
     })
       .compileComponents();
 
@@ -26,5 +28,9 @@ describe('GameSearchCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('links to the game page', () => {
+    expect(fixture.nativeElement.querySelector('a.title').getAttribute('href')).toBe('/game/game-001');
   });
 });

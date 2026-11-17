@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AuthCallbackComponent} from './auth-callback.component';
-import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {MockedObject, vi} from 'vitest';
 import {AuthService} from '../services/auth.service';
 
@@ -22,6 +22,7 @@ describe('AuthCallbackComponent', () => {
       imports: [AuthCallbackComponent],
       providers: [
         {provide: AuthService, useValue: mockAuthService},
+        {provide: Router, useValue: {navigate: vi.fn().mockResolvedValue(true)}},
         {
           provide: ActivatedRoute,
           useValue: {

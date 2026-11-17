@@ -1,4 +1,5 @@
-import {Component, computed, input, output} from '@angular/core';
+import {Component, computed, input} from '@angular/core';
+import {RouterLink} from '@angular/router';
 import {DecimalPipe, NgOptimizedImage} from "@angular/common";
 import {HomePlayerItem} from '@home/api/models/home-player-item';
 import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component';
@@ -8,14 +9,14 @@ import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component'
   imports: [
     NgOptimizedImage,
     DecimalPipe,
-    TrophyCountComponent
+    TrophyCountComponent,
+    RouterLink,
   ],
   templateUrl: './home-player-card.component.html',
   styleUrl: './home-player-card.component.scss',
 })
 export class HomePlayerCardComponent {
   readonly player = input.required<HomePlayerItem>();
-  readonly clickOnPseudo = output<string>();
 
   readonly nbRecentlyEarnedTrophies = computed(() => {
     return this.player().nbRecentBronzeTrophies +
