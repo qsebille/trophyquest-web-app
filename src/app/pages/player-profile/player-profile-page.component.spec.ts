@@ -3,7 +3,7 @@ import {provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideRouter} from '@angular/router';
 import {environment} from '@environment';
-import {BackgroundService} from '@core/background/background.service';
+import {BackgroundService, DEFAULT_BACKGROUND_URL} from '@core/background/background.service';
 import {PlayerProfilePageComponent} from './player-profile-page.component';
 import {PlayerProfileStoreService} from './api/player-profile-store.service';
 import {PlayerSummaryResponse} from './models/player-summary-response';
@@ -142,7 +142,7 @@ describe('PlayerProfilePageComponent', () => {
     fixture.componentRef.setInput('playerId', 'player-2');
     await render();
     expect(oldRequest.cancelled).toBe(true);
-    expect(TestBed.inject(BackgroundService).image()).toEqual({url: ''});
+    expect(TestBed.inject(BackgroundService).image()).toEqual({url: DEFAULT_BACKGROUND_URL});
     expect(fixture.componentInstance.suites.items()).toEqual([]);
     expect(fixture.componentInstance.trophies.items()).toEqual([]);
     http.expectOne(`${baseUrl}/player-2/background`).flush({url: 'player-2-background.png'});
@@ -167,7 +167,7 @@ describe('PlayerProfilePageComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('Player not found.');
     expect(fixture.nativeElement.querySelectorAll('.profile-section')).toHaveLength(0);
   });
-  it('clears the background if the latest game has no image or the request fails', async () => {
+  it('uses the default background if the latest game has no image or the request fails', async () => {
     await initialLoad();
     const background = TestBed.inject(BackgroundService);
     expect(background.image().url).toBe('player-1-background.png');
@@ -178,14 +178,14 @@ describe('PlayerProfilePageComponent', () => {
     await render();
     http.expectOne(`${baseUrl}/player-1/background`).flush({url: ''});
     await render();
-    expect(background.image()).toEqual({url: ''});
+    expect(background.image()).toEqual({url: DEFAULT_BACKGROUND_URL});
 
     background.setBackground({url: 'previous-page.png'});
     store.background.reload();
     await render();
     http.expectOne(`${baseUrl}/player-1/background`).flush('Unavailable', {status: 503, statusText: 'Unavailable'});
     await render();
-    expect(background.image()).toEqual({url: ''});
+    expect(background.image()).toEqual({url: DEFAULT_BACKGROUND_URL});
     expect(fixture.nativeElement.querySelector('h1').textContent).toContain('Lofrings');
   });
 

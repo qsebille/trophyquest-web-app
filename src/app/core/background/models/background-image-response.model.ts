@@ -1,3 +1,3 @@
 export interface BackgroundImageResponse {
-  url: string
+  url: string | null;
 }

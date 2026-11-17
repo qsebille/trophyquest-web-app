@@ -1,4 +1,4 @@
-import {Component, computed, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NavbarComponent} from '@core/navbar/navbar.component';
 import {RouterOutlet} from '@angular/router';
 import {IdleReloadService} from "@core/utils/idle-reload.service";
@@ -19,10 +19,13 @@ export class App {
   private readonly backgroundImageService = inject(BackgroundService);
   private readonly idleReloadService = inject(IdleReloadService);
 
-  readonly backgroundUrl = computed(() => {
-    const url = this.backgroundImageService.image().url;
-    return url ? `url(${url})` : 'none';
-  });
+  protected readonly backgroundImage = this.backgroundImageService.image;
+
+  protected onBackgroundError(image: HTMLImageElement): void {
+    if (image.getAttribute('src') === this.backgroundImage().url) {
+      this.backgroundImageService.setBackground(null);
+    }
+  }
 
   ngOnInit(): void {
     this.idleReloadService.start();

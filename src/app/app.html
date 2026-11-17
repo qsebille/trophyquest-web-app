@@ -1,6 +1,8 @@
 <tq-notification-toast/>
 <tq-navbar/>
-<div class="trophy-quest-app" [style.--background-url]="backgroundUrl()">
+<div class="trophy-quest-app">
+  <img #background class="app-background" alt="" [src]="backgroundImage().url"
+       (error)="onBackgroundError(background)">
   <div class="app-content-wrapper">
     <router-outlet/>
   </div>
