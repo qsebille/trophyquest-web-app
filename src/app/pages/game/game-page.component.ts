@@ -63,9 +63,10 @@ export class GamePageComponent {
   constructor() {
     effect(() => {
       this.store.setGameId(this.gameId());
-      if (this.store.background.hasValue()) {
-        this.backgroundService.setBackground(this.store.background.value() ?? {url: ''});
-      }
+    });
+    effect(() => {
+      const background = this.store.background;
+      this.backgroundService.setBackground(background.hasValue() ? background.value() : null);
     });
     effect(() => this.store.setSuiteId(this.selectedSuiteId()));
     effect(() => this.store.setPlayerId(this.selectedPlayerId()));

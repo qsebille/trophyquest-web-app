@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#c9e1f0"/>
+      <stop offset=".52" stop-color="#e4eff7"/>
+      <stop offset="1" stop-color="#bdd8eb"/>
+    </linearGradient>
+    <radialGradient id="center">
+      <stop stop-color="#f4f7fb" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#f4f7fb" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="buttons" width="240" height="192" patternUnits="userSpaceOnUse"
+             patternTransform="rotate(-14)">
+      <g fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M38 44 51 21 64 44Z" stroke="#419c4d"/>
+        <circle cx="171" cy="50" r="11" stroke="#cc4343"/>
+        <path d="m84 126 17 17m0-17-17 17" stroke="#2d6db3"/>
+        <rect x="194" y="133" width="20" height="20" rx="2" stroke="#b85199"/>
+      </g>
+    </pattern>
+  </defs>
+  <path fill="url(#background)" d="M0 0h1600v1000H0z"/>
+  <path fill="url(#buttons)" opacity=".33" d="M0 0h1600v1000H0z"/>
+  <path fill="url(#center)" d="M0 0h1600v1000H0z"/>
+</svg>
