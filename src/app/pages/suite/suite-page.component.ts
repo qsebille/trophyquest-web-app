@@ -1,4 +1,4 @@
-import {Component, computed, inject, input} from '@angular/core';
+import {Component, computed, effect, inject, input} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {RouterLink} from '@angular/router';
 import {BackgroundService} from '@core/background/background.service';
@@ -18,6 +18,7 @@ import {SuiteApiService} from './api/suite-api.service';
 })
 export class SuitePageComponent {
   private readonly api = inject(SuiteApiService);
+  private readonly backgroundService = inject(BackgroundService);
 
   readonly suiteId = input<string | null>(null);
   readonly selectedTab = input('trophies', {
@@ -33,6 +34,7 @@ export class SuitePageComponent {
   });
 
   readonly suite = this.api.details(this.suiteId);
+  private readonly background = this.api.background(this.suiteId);
   readonly game = inject(GameApiService).details(() => {
     const gameId = this.suite.hasValue() ? this.suite.value().gameId : null;
     return gameId == null ? null : String(gameId);
@@ -48,7 +50,9 @@ export class SuitePageComponent {
   });
 
   constructor() {
-    inject(BackgroundService).setBackground(null);
+    effect(() => {
+      this.backgroundService.setBackground(this.background.hasValue() ? this.background.value() : null);
+    });
   }
 
   private suiteIdFor(tab: string): string | null {

@@ -1,5 +1,6 @@
 import {Service} from '@angular/core';
 import {httpResource} from '@angular/common/http';
+import {BackgroundImageResponse} from '@core/background/models/background-image-response.model';
 import {Pagination} from '@core/models/pagination';
 import {environment} from '@environment';
 import {PlayerItem} from '@shared/models/player-item';
@@ -15,6 +16,13 @@ export class SuiteApiService {
     return httpResource<SuiteDetails>(() => {
       const id = suiteId();
       return id ? `${this.url}/${encodeURIComponent(id)}` : undefined;
+    });
+  }
+
+  background(suiteId: () => string | null) {
+    return httpResource<BackgroundImageResponse>(() => {
+      const id = suiteId();
+      return id ? `${this.url}/${encodeURIComponent(id)}/background` : undefined;
     });
   }
 

@@ -3,9 +3,10 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {TestBed} from '@angular/core/testing';
 import {provideRouter, Router, withComponentInputBinding} from '@angular/router';
 import {RouterTestingHarness} from '@angular/router/testing';
+import {BackgroundService, DEFAULT_BACKGROUND_URL} from '@core/background/background.service';
 import {environment} from '@environment';
 import {routes} from '../../app.routes';
-import {SuiteDetails} from './api/suite-api.service';
+import {SuiteDetails} from './models/suite-details';
 import {SuitePageComponent} from './suite-page.component';
 
 const suite: SuiteDetails = {
@@ -56,6 +57,7 @@ describe('SuitePageComponent', () => {
     await harness.navigateByUrl('/suite/suite-1', SuitePageComponent);
     await render();
     http.expectOne(suiteUrl).flush(suite);
+    http.expectOne(`${suiteUrl}/background`).flush({url: 'collection-background.png'});
     await render();
     http.expectOne(`${api}/game/details/1001`).flush({title: 'Tomb Raider Collection'});
     http.expectOne(`${suiteUrl}/trophies`).flush([]);
@@ -72,6 +74,7 @@ describe('SuitePageComponent', () => {
     await harness.navigateByUrl('/suite/suite-1?tab=players', SuitePageComponent);
     await render();
     http.expectOne(suiteUrl).flush({...suite, gameId: null});
+    http.expectOne(`${suiteUrl}/background`).flush({url: null});
     await render();
     http.expectOne(`${suiteUrl}/players?page=0&size=10`).flush({content: [player], page: 0, size: 10, total: 11});
     await render();
@@ -114,9 +117,36 @@ describe('SuitePageComponent', () => {
     await harness.navigateByUrl('/suite/suite-1', SuitePageComponent);
     await render();
     http.expectOne(suiteUrl).flush(null, {status: 404, statusText: 'Not Found'});
+    http.expectOne(`${suiteUrl}/background`).flush(null, {status: 404, statusText: 'Not Found'});
     await render();
 
     expect(harness.routeNativeElement!.querySelector('[role=alert]')?.textContent).toContain('Suite not found.');
     expect(harness.routeNativeElement!.querySelector('.suite-tabs')).toBeNull();
+    expect(TestBed.inject(BackgroundService).image().url).toBe(DEFAULT_BACKGROUND_URL);
+  });
+
+  it('updates the background on navigation and restores the default for a suite without an image', async () => {
+    const background = TestBed.inject(BackgroundService);
+    background.setBackground({url: 'previous-background.png'});
+
+    await harness.navigateByUrl('/suite/suite-1', SuitePageComponent);
+    await render();
+    expect(background.image().url).toBe(DEFAULT_BACKGROUND_URL);
+    http.expectOne(suiteUrl).flush(suite);
+    http.expectOne(`${suiteUrl}/background`).flush({url: 'collection-background.png'});
+    await render();
+    http.expectOne(`${api}/game/details/1001`).flush({title: 'Tomb Raider Collection'});
+    http.expectOne(`${suiteUrl}/trophies`).flush([]);
+    expect(background.image().url).toBe('collection-background.png');
+
+    const nextSuiteUrl = `${api}/suite/suite-2`;
+    await harness.navigateByUrl('/suite/suite-2', SuitePageComponent);
+    await render();
+    expect(background.image().url).toBe(DEFAULT_BACKGROUND_URL);
+    http.expectOne(nextSuiteUrl).flush({...suite, suiteId: 'suite-2', gameId: null});
+    http.expectOne(`${nextSuiteUrl}/background`).flush({url: null});
+    await render();
+    http.expectOne(`${nextSuiteUrl}/trophies`).flush([]);
+    expect(background.image().url).toBe(DEFAULT_BACKGROUND_URL);
   });
 });
