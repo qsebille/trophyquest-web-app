@@ -6,10 +6,12 @@ import {PlayerSearchPageComponent} from '@player-search/player-search-page.compo
 import {AssociationPageComponent} from '@association/association-page.component';
 
 import {PlayerProfilePageComponent} from './pages/player-profile/player-profile-page.component';
+import {SuitePageComponent} from './pages/suite/suite-page.component';
 
 export const routes: Routes = [
   {path: 'home', component: HomePageComponent},
   {path: 'game/:gameId', component: GamePageComponent},
+  {path: 'suite/:suiteId', component: SuitePageComponent},
   {path: 'game-search', component: GameSearchPageComponent},
   {path: 'player/:playerId', component: PlayerProfilePageComponent},
   {path: 'player-search', component: PlayerSearchPageComponent},

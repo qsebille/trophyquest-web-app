@@ -1,0 +1,16 @@
+<div class="trophy-list">
+  @for (group of trophyGroups(); track group.name) {
+    <details class="trophy-group" open>
+      <summary>{{ group.name }}</summary>
+      <ul>
+        @for (trophy of group.trophies; track trophy.trophyId) {
+          <li>
+            <tq-suite-trophy-card [trophy]="trophy" [showHiddenTrophies]="showHiddenTrophies()"/>
+          </li>
+        }
+      </ul>
+    </details>
+  } @empty {
+    <p class="trophy-empty">{{ trophies().length ? 'No trophies match these filters.' : 'No trophies yet.' }}</p>
+  }
+</div>

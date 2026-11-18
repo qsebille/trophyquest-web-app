@@ -1,0 +1,11 @@
+<div class="player-card">
+  <img class="player-card-avatar" [src]="player().avatarUrl || '/assets/icons/user.svg'"
+       width="48" height="48" alt="" loading="lazy"/>
+  <div class="player-card-details">
+    <a [routerLink]="['/player', player().playerId]">{{ player().pseudo }}</a>
+    @if (player().lastPlayedAt; as lastPlayedAt) {
+      <time [attr.datetime]="lastPlayedAt">Last played {{ lastPlayedAt | date: 'medium' }}</time>
+    }
+  </div>
+  <ng-content/>
+</div>

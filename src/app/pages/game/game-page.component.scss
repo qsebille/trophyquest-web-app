@@ -1,37 +1,45 @@
 @use 'styles/variables/colors' as *;
 
 .game-page {
-  margin-top: 5rem;
+  max-width: 1200px;
+  margin: 5rem auto 2rem;
+  padding: 0 1rem;
+  display: grid;
+  gap: 1.5rem;
+}
 
-  .trophy-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.game-activity {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.game-panel {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 1rem;
+  background: $tq-white;
+
+  h2 {
+    margin: 0;
+    color: $tq-blue-medium;
+    font-size: 1.25rem;
   }
 }
 
-.nav-tabs {
-  .nav-link {
-    background-color: $tq-blue-lighter;
-    color: $tq-blue-light;
-    border-bottom: none;
-
-    &:hover {
-      background-color: $tq-white;
-    }
-
-    &.active {
-      background-color: $tq-white;
-      color: $tq-blue-medium !important;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-  }
+.game-error {
+  margin: 0;
+  padding: 1rem;
+  border-radius: .5rem;
+  background: $tq-red-lighter;
+  color: $tq-red-dark;
 }
 
-.game-page-content {
-  background-color: $tq-white;
-  min-height: 80vh;
-  padding: 2rem;
-  border-radius: 0 0 10px 10px;
+@media (max-width: 760px) {
+  .game-activity {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

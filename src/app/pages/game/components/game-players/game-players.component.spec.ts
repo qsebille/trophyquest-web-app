@@ -14,7 +14,7 @@ describe('GamePlayersComponent', () => {
 
     fixture = TestBed.createComponent(GamePlayersComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('playersPagination', null);
+    fixture.componentRef.setInput('players', []);
     fixture.detectChanges();
   });
 

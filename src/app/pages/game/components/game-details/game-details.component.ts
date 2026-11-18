@@ -18,10 +18,5 @@ import {GameDetailsResponse} from '@game/models/game-details-response';
 export class GameDetailsComponent {
   readonly gameDetails = input.required<GameDetailsResponse>();
 
-  readonly hasScreenshots = computed(() => this.gameDetails()?.screenshotUrls?.length > 0)
-
-  readonly hasIgdbInfo = computed(() => !!this.gameDetails()?.summary ||
-    this.gameDetails()?.genres?.length > 0 ||
-    this.gameDetails()?.themes?.length > 0
-  );
+  readonly hasScreenshots = computed(() => this.gameDetails()?.screenshotUrls?.length > 0);
 }

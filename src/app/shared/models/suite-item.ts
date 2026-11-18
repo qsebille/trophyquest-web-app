@@ -1,8 +1,8 @@
-export interface GameSuiteItem {
+export interface SuiteItem {
   suiteId: string
   title: string
-  platforms: string[]
-  imageUrl: string
+  platforms: string[] | null
+  imageUrl: string | null
   nbBronzeTrophies: number
   nbSilverTrophies: number
   nbGoldTrophies: number

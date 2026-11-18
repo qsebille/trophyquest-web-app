@@ -1,11 +1,11 @@
-export interface GameTrophyItem {
+export interface TrophyItem {
   trophyId: string
   rank: number
   title: string
   description: string
   color: string
   isHidden: boolean
-  iconUrl: string
+  iconUrl: string | null
   groupName: string
-  earnedAt: Date | null
+  earnedAt: string | null
 }

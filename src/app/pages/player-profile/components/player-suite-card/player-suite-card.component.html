@@ -9,12 +9,8 @@
        [src]="suite().imageUrl || '/assets/icons/missing-game-image.svg'"
        width="72" height="72" alt="Suite image" loading="lazy"/>
   <div class="suite-details">
-    @if (suite().gameId !== null) {
-      <a class="suite-title" [routerLink]="['/game', suite().gameId]"
-         [queryParams]="{tab: 'trophies', suiteId: suite().suiteId, playerId: playerId()}">{{ suite().title }}</a>
-    } @else {
-      <span class="suite-title">{{ suite().title }}</span>
-    }
+    <a class="suite-title" [routerLink]="['/suite', suite().suiteId]"
+       [queryParams]="{playerId: playerId()}">{{ suite().title }}</a>
     <span class="suite-platforms">{{ suite().platforms.join(' · ') }}</span>
     @if (suite().lastPlayedAt) {
       <time class="suite-date" [attr.datetime]="suite().lastPlayedAt">

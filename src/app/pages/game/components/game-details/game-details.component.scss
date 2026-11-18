@@ -10,7 +10,8 @@
     gap: 1.5rem;
 
     .game-cover {
-      height: auto;
+      width: clamp(72px, 16vw, 128px);
+      height: fit-content;
       border-radius: .5rem;
     }
 
@@ -21,8 +22,9 @@
       align-items: flex-start;
 
       .game-title {
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 5vw, 2rem);
         font-weight: 600;
+        overflow-wrap: anywhere;
         margin-bottom: 10px;
       }
     }
@@ -91,6 +93,37 @@
         object-fit: cover;
         object-position: top;
       }
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .game-details {
+    gap: 1.25rem;
+
+    &-header {
+      gap: .75rem;
+
+      &-infos {
+        min-width: 0;
+        padding: 0;
+      }
+    }
+
+    &-body {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      .summary {
+        grid-column: 1 / -1;
+      }
+
+      &-section {
+        grid-column: span 1;
+      }
+    }
+
+    &-screenshots .banner-carousel {
+      width: 100%;
     }
   }
 }

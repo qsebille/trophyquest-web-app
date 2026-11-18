@@ -1,0 +1,27 @@
+<div [class.completed]="isTrophyEarned()" [class.hidden]="isTrophyHidden()" class="trophy-card">
+  <div class="trophy-info">
+    @if (trophy().iconUrl; as iconUrl) {
+      <img class="trophy-icon" [ngSrc]="iconUrl" alt="" height="50" width="50"/>
+    }
+    <div class="trophy-description">
+      <strong>{{ isTrophyHidden() ? 'Hidden trophy' : trophy().title }}</strong>
+      <em>{{ isTrophyHidden() ? 'This trophy is hidden' : trophy().description }}</em>
+    </div>
+  </div>
+  <div class="trophy-status">
+    <div class="trophy-grade">
+      @if (isTrophyHidden()) {
+        <img height="28" width="28" alt="Hidden trophy" ngSrc="/assets/icons/trophy-hidden.png"/>
+      } @else {
+        <img height="28" width="28" [alt]="trophy().color + ' trophy'"
+             [ngSrc]="'/assets/icons/trophy-' + trophy().color + '.png'"/>
+        @if (isTrophyEarned()) {
+          <mat-icon class="trophy-check-icon">check</mat-icon>
+        }
+      }
+    </div>
+    @if (isTrophyEarned()) {
+      <time [attr.datetime]="trophy().earnedAt">{{ trophy().earnedAt | date: 'short' }}</time>
+    }
+  </div>
+</div>

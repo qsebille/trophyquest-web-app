@@ -1,3 +1,14 @@
-.suite-card {
-  width: 75%;
+@use 'styles/variables/colors' as *;
+
+.game-suite-list {
+  display: grid;
+  gap: .65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suite-list-empty {
+  margin: 0;
+  color: $tq-gray-medium;
 }
