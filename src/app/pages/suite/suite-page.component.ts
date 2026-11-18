@@ -1,18 +1,23 @@
-import {Component, computed, effect, inject, input} from '@angular/core';
+import {Component, computed, effect, inject, input, linkedSignal} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {RouterLink} from '@angular/router';
 import {BackgroundService} from '@core/background/background.service';
 import {SpinnerComponent} from '@core/spinner/spinner.component';
 import {GameApiService} from '@game/api/game-api.service';
-import {TrophyListComponent} from './components/trophy-list/trophy-list.component';
+import {SuiteTrophyListComponent} from './components/suite-trophy-list/suite-trophy-list.component';
 import {PlayerCardComponent} from '@shared/player-card/player-card.component';
 import {SuiteCardComponent} from '@shared/suite-card/suite-card.component';
 import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component';
 import {PlayerProfileApiService} from '../player-profile/api/player-profile-api.service';
 import {SuiteApiService} from './api/suite-api.service';
+import {SuiteTrophyFiltersComponent} from './components/suite-trophy-filters/suite-trophy-filters.component';
+import {EarnedTrophyFilterState} from './models/earned-trophy-filter-state';
 
 @Component({
-  imports: [RouterLink, SpinnerComponent, SuiteCardComponent, PlayerCardComponent, TrophyListComponent, TrophyCountComponent],
+  imports: [
+    RouterLink, SpinnerComponent, SuiteCardComponent, PlayerCardComponent,
+    SuiteTrophyFiltersComponent, SuiteTrophyListComponent, TrophyCountComponent,
+  ],
   templateUrl: './suite-page.component.html',
   styleUrl: './suite-page.component.scss',
 })
@@ -40,6 +45,12 @@ export class SuitePageComponent {
     return gameId == null ? null : String(gameId);
   });
   readonly trophies = this.api.trophies(() => this.suiteIdFor('trophies'), this.playerId);
+  private readonly trophyFilterContext = computed(() => [this.suiteId(), this.selectedTab(), this.playerId()]);
+  readonly showHiddenTrophies = linkedSignal({source: this.trophyFilterContext, computation: () => false});
+  readonly earnedFilter = linkedSignal({
+    source: this.trophyFilterContext,
+    computation: (): EarnedTrophyFilterState => 'all',
+  });
   readonly players = this.api.players(() => this.suiteIdFor('players'), this.playerPage);
   readonly selectedPlayer = inject(PlayerProfileApiService).summary(() =>
     this.suiteIdFor('trophies') ? this.playerId() : null);

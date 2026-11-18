@@ -1,15 +1,11 @@
 <div class="trophy-list">
-  <tq-trophy-filters [selectedPlayerId]="selectedPlayerId()" [earnedFilter]="earnedFilter()"
-                     (hiddenFilterChange)="showHiddenTrophies.set($event)"
-                     (earnedFilterChange)="earnedFilterState.set($event)"/>
-
   @for (group of trophyGroups(); track group.name) {
     <details class="trophy-group" open>
       <summary>{{ group.name }}</summary>
       <ul>
         @for (trophy of group.trophies; track trophy.trophyId) {
           <li>
-            <tq-trophy-card [trophy]="trophy" [showHiddenTrophies]="showHiddenTrophies()"/>
+            <tq-suite-trophy-card [trophy]="trophy" [showHiddenTrophies]="showHiddenTrophies()"/>
           </li>
         }
       </ul>

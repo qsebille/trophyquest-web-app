@@ -60,7 +60,12 @@
               <button class="suite-button" type="button" (click)="trophies.reload()">Retry</button>
             </div>
           } @else if (trophies.hasValue()) {
-            <tq-trophy-list [trophies]="trophies.value()" [selectedPlayerId]="playerId()"/>
+            <tq-suite-trophy-filters [selectedPlayerId]="playerId()" [earnedFilter]="earnedFilter()"
+                                     [showHiddenTrophies]="showHiddenTrophies()"
+                                     (hiddenFilterChange)="showHiddenTrophies.set($event)"
+                                     (earnedFilterChange)="earnedFilter.set($event)"/>
+            <tq-suite-trophy-list [trophies]="trophies.value()" [earnedFilter]="earnedFilter()"
+                                  [showHiddenTrophies]="showHiddenTrophies()"/>
           }
         </section>
       } @else {

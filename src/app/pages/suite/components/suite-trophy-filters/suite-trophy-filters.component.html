@@ -10,7 +10,7 @@
     </label>
   }
   <label class="hidden-filter">
-    <input #hidden type="checkbox" (change)="hiddenFilterChange.emit(hidden.checked)"/>
+    <input #hidden type="checkbox" [checked]="showHiddenTrophies()" (change)="hiddenFilterChange.emit(hidden.checked)"/>
     Show hidden trophies
   </label>
 </div>

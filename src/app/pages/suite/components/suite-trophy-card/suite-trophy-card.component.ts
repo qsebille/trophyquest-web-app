@@ -4,16 +4,16 @@ import {MatIcon} from "@angular/material/icon";
 import {TrophyItem} from '@shared/models/trophy-item';
 
 @Component({
-  selector: 'tq-trophy-card',
+  selector: 'tq-suite-trophy-card',
   imports: [
     DatePipe,
     MatIcon,
     NgOptimizedImage
   ],
-  templateUrl: './trophy-card.component.html',
-  styleUrl: './trophy-card.component.scss',
+  templateUrl: './suite-trophy-card.component.html',
+  styleUrl: './suite-trophy-card.component.scss',
 })
-export class TrophyCardComponent {
+export class SuiteTrophyCardComponent {
   readonly trophy = input.required<TrophyItem>();
   readonly showHiddenTrophies = input<boolean>(false);
 
