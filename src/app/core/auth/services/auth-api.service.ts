@@ -12,4 +12,8 @@ export class AuthApiService {
   fetchCurrentUser(): Observable<AuthUser> {
     return this.httpClient.get<AuthUser>(`${this.apiUrl}/me`);
   }
+
+  updateDisplayName(displayName: string): Observable<AuthUser> {
+    return this.httpClient.put<AuthUser>(`${this.apiUrl}/me`, {displayName});
+  }
 }

@@ -1,0 +1,33 @@
+<main class="account-page">
+  <section class="account-panel" aria-labelledby="account-title">
+    <h1 id="account-title">Account</h1>
+
+    @if (authService.currentUser(); as user) {
+      <form (ngSubmit)="saveNickname()">
+        <div class="nickname-field">
+          <label for="nickname">Nickname</label>
+          <input id="nickname" name="nickname" type="text" autocomplete="nickname"
+                 required [maxlength]="maxNicknameLength" [readOnly]="saving()" aria-describedby="nickname-hint"
+                 [ngModel]="draft() ?? user.displayName ?? ''" (ngModelChange)="editNickname($event)">
+          <small id="nickname-hint">3–{{ maxNicknameLength }} characters.</small>
+        </div>
+        <button type="submit" class="account-button" [disabled]="!canSave()">
+          {{ saving() ? 'Saving…' : 'Save nickname' }}
+        </button>
+      </form>
+      @if (saveError(); as error) {
+        <p class="account-message account-error" role="alert">{{ error }}</p>
+      }
+      @if (saved()) {
+        <p class="account-message account-success" role="status">Nickname saved.</p>
+      }
+    } @else if (authService.profileLoadFailed()) {
+      <p class="account-message account-error" role="alert">Could not load your account.</p>
+      <button type="button" class="account-button retry-button" (click)="authService.refreshCurrentUser()">
+        Try again
+      </button>
+    } @else {
+      <p role="status">Loading your account…</p>
+    }
+  </section>
+</main>

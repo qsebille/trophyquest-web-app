@@ -23,7 +23,7 @@ export class NavbarComponent {
 
   currentUserName = computed(() => {
     const currentUser = this.authService.currentUser()
-    return currentUser?.displayName ?? currentUser?.email;
+    return currentUser?.displayName || currentUser?.email || 'Account';
   });
 
   ngOnInit(): void {

@@ -51,6 +51,14 @@
     }
   }
 
+  .user-menu-name {
+    display: inline-block;
+    max-width: min(12rem, 26vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
 }
 
 

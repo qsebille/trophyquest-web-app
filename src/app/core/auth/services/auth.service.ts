@@ -20,6 +20,7 @@ export class AuthService {
   readonly authState = signal<AuthState | null>(this.restoreAuthState());
 
   readonly currentUser = signal<AuthUser | null>(null);
+  readonly profileLoadFailed = signal(false);
   readonly isAuthenticated = computed(() => {
     const state = this.authState();
     return !!state && state.expiresAt > Date.now();
@@ -84,6 +85,7 @@ export class AuthService {
 
   logout(): void {
     this.authState.set(null);
+    this.currentUser.set(null);
     sessionStorage.removeItem('auth_state');
     sessionStorage.removeItem('oauth_state');
     sessionStorage.removeItem('pkce_code_verifier');
@@ -96,9 +98,28 @@ export class AuthService {
   }
 
   refreshCurrentUser(): void {
-    this.authApiService.fetchCurrentUser().subscribe((user) => {
-      this.currentUser.set(user);
+    const session = this.authState();
+    this.profileLoadFailed.set(false);
+    this.authApiService.fetchCurrentUser().subscribe({
+      next: user => {
+        if (this.authState() === session) {
+          this.currentUser.set(user);
+        }
+      },
+      error: () => {
+        if (this.authState() === session) {
+          this.profileLoadFailed.set(true);
+        }
+      },
     });
+  }
+
+  async updateDisplayName(displayName: string): Promise<void> {
+    const session = this.authState();
+    const user = await firstValueFrom(this.authApiService.updateDisplayName(displayName));
+    if (this.authState() === session) {
+      this.currentUser.set(user);
+    }
   }
 
   private get redirectUri(): string {

@@ -13,9 +13,10 @@
   @if (authService.isAuthenticated()) {
     <div ngbDropdown class="d-inline-block">
       <button class="btn text-white" id="userMenu" ngbDropdownToggle>
-        {{ currentUserName() }}
+        <span class="user-menu-name">{{ currentUserName() }}</span>
       </button>
       <div ngbDropdownMenu aria-labelledby="userMenu" class="dropdown-menu dropdown-menu-end">
+        <a ngbDropdownItem routerLink="/account">Account</a>
         <button ngbDropdownItem class="fw-bold text-danger" (click)="authService.logout()">Logout</button>
       </div>
     </div>

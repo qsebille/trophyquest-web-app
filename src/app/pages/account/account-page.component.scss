@@ -1,0 +1,89 @@
+@use 'styles/variables/colors' as *;
+
+.account-page {
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: 1.5rem 1rem;
+}
+
+.account-panel {
+  padding: clamp(1rem, 4vw, 1.5rem);
+  border: 2px solid $tq-blue-dark;
+  border-radius: .75rem;
+  color: $tq-blue-medium;
+  background: $tq-blue-lighter;
+
+  h1 {
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.nickname-field {
+  display: grid;
+  gap: .35rem;
+  margin-bottom: 1rem;
+
+  input {
+    width: 100%;
+    min-width: 0;
+    padding: .5rem .75rem;
+    border: 1px solid $tq-blue-light;
+    border-radius: .4rem;
+    color: $tq-blue-dark;
+    background: $tq-white;
+  }
+
+  small {
+    color: $tq-gray-medium;
+  }
+}
+
+.account-button {
+  padding: .45rem .85rem;
+  border: 1px solid $tq-blue-medium;
+  border-radius: .4rem;
+  color: $tq-white;
+  background: $tq-blue-medium;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $tq-blue-dark;
+  }
+
+  &:disabled {
+    opacity: .65;
+    cursor: default;
+  }
+}
+
+.retry-button,
+.account-panel .account-message {
+  margin-top: 1rem;
+}
+
+.account-message {
+  padding: .75rem 1rem;
+  border-radius: .4rem;
+}
+
+.account-error {
+  color: $tq-red-darker;
+  background: $tq-red-lighter;
+}
+
+.account-success {
+  color: $tq-green-darker;
+  background: $tq-green-lighter;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid $tq-blue-medium;
+  outline-offset: 2px;
+}
