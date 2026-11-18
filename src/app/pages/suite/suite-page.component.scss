@@ -1,0 +1,99 @@
+@use 'styles/variables/colors' as *;
+
+.suite-page {
+  max-width: 1200px;
+  margin: 5rem auto 2rem;
+  padding: 0 1rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.suite-content {
+  min-width: 0;
+  border-radius: 1rem;
+  background: $tq-white;
+}
+
+.suite-tabs {
+  display: flex;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  gap: 1rem;
+  border-bottom: 1px solid $tq-blue-light;
+
+  a {
+    padding: .85rem .3rem;
+    border-bottom: 3px solid transparent;
+    color: $tq-blue-dark;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &[aria-current='page'] {
+      border-color: $tq-blue-medium;
+      font-weight: 700;
+    }
+  }
+}
+
+.suite-panel {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.suite-player-selection,
+.suite-pagination,
+.suite-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+}
+
+.suite-player-list {
+  display: grid;
+  gap: .65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suite-muted {
+  margin: 0;
+  color: $tq-gray-medium;
+}
+
+.suite-pagination {
+  justify-content: center;
+}
+
+.suite-button {
+  display: inline-block;
+  padding: .4rem .75rem;
+  border: 1px solid $tq-blue-medium;
+  border-radius: .5rem;
+  color: $tq-blue-medium;
+  background: $tq-white;
+  text-decoration: none;
+
+  &:hover {
+    background: $tq-blue-medium;
+    color: $tq-white;
+  }
+}
+
+.suite-error {
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: .5rem;
+  color: $tq-red-dark;
+  background: $tq-red-lighter;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid $tq-blue-light;
+  outline-offset: 3px;
+}

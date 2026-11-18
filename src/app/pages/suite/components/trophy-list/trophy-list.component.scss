@@ -1,0 +1,33 @@
+@use 'styles/variables/colors' as *;
+
+.trophy-list {
+  display: grid;
+  gap: .75rem;
+}
+
+.trophy-group {
+  border: 1px solid $tq-blue-lighter;
+  border-radius: .75rem;
+  background: $tq-white;
+
+  summary {
+    padding: .75rem 1rem;
+    border-radius: .75rem;
+    color: $tq-blue-dark;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  ul {
+    display: grid;
+    gap: .4rem;
+    padding: 0 .75rem .75rem;
+    margin: 0;
+    list-style: none;
+  }
+}
+
+.trophy-empty {
+  margin: 0;
+  color: $tq-gray-medium;
+}

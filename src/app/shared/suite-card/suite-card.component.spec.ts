@@ -1,14 +1,14 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {provideRouter} from '@angular/router';
 
-import {GameSuiteCardComponent} from './game-suite-card.component';
-import {GameSuiteDisplayMode} from '@game/models/constants/suite-display-mode';
-import {GameSuiteItem} from '@game/models/game-suite-item';
+import {SuiteCardComponent} from './suite-card.component';
+import {SuiteItem} from '@shared/models/suite-item';
 
-describe('GameSuiteCardComponent', () => {
-  let component: GameSuiteCardComponent;
-  let fixture: ComponentFixture<GameSuiteCardComponent>;
+describe('SuiteCardComponent', () => {
+  let component: SuiteCardComponent;
+  let fixture: ComponentFixture<SuiteCardComponent>;
 
-  const suiteStub: GameSuiteItem = {
+  const suiteStub: SuiteItem = {
     suiteId: 'suite-1',
     title: 'Suite Title',
     imageUrl: 'image.png',
@@ -21,14 +21,14 @@ describe('GameSuiteCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GameSuiteCardComponent]
+      imports: [SuiteCardComponent],
+      providers: [provideRouter([])]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(GameSuiteCardComponent);
+    fixture = TestBed.createComponent(SuiteCardComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('suite', suiteStub)
-    fixture.componentRef.setInput('displayMode', GameSuiteDisplayMode.SINGLE)
     fixture.detectChanges();
   });
 

@@ -1,0 +1,80 @@
+@use 'styles/variables/colors' as *;
+
+.suite-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem;
+  border-radius: .65rem;
+  background: $tq-blue-lighter;
+}
+
+.suite-card-image {
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: .4rem;
+}
+
+.suite-card-details {
+  display: grid;
+  gap: .15rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.suite-card-title {
+  color: $tq-blue-medium;
+  font-weight: 700;
+  text-decoration: none;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    border-radius: .65rem;
+    content: '';
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 3px solid $tq-blue-light;
+      outline-offset: 3px;
+    }
+  }
+}
+
+.suite-card-platforms {
+  font-size: .875rem;
+}
+
+.suite-card-heading {
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 1rem;
+  background: $tq-white;
+
+  .suite-card-image {
+    width: clamp(72px, 15vw, 104px);
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: .75rem;
+  }
+
+  .suite-card-details {
+    gap: .4rem;
+    justify-items: start;
+  }
+
+  h1 {
+    margin: 0;
+    color: $tq-blue-medium;
+    font-size: clamp(1.5rem, 5vw, 2.25rem);
+  }
+}

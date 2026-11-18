@@ -1,13 +1,13 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {GameTrophyCardComponent} from './game-trophy-card.component';
-import {GameTrophyItem} from '@game/models/game-trophy-item';
+import {TrophyCardComponent} from './trophy-card.component';
+import {TrophyItem} from '@shared/models/trophy-item';
 
-describe('GameTrophyCardComponent', () => {
-  let component: GameTrophyCardComponent;
-  let fixture: ComponentFixture<GameTrophyCardComponent>;
+describe('TrophyCardComponent', () => {
+  let component: TrophyCardComponent;
+  let fixture: ComponentFixture<TrophyCardComponent>;
 
-  const trophyMock: GameTrophyItem = {
+  const trophyMock: TrophyItem = {
     trophyId: 'trophy-1',
     rank: 1,
     title: 'Trophy 1',
@@ -21,11 +21,11 @@ describe('GameTrophyCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GameTrophyCardComponent]
+      imports: [TrophyCardComponent]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(GameTrophyCardComponent);
+    fixture = TestBed.createComponent(TrophyCardComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('trophy', trophyMock);
     fixture.detectChanges();

@@ -1,63 +1,35 @@
-<div class="container container-fluid game-page">
-  <ul ngbNav
-      [activeId]="selectedTab()"
-      (activeIdChange)="selectTab($event)"
-      #nav="ngbNav"
-      class="nav-tabs">
+<main class="game-page">
+  @if (details.isLoading()) {
+    <tq-spinner/>
+  } @else if (details.error()) {
+    <p class="game-error" role="alert">Failed to load game details.</p>
+  } @else if (details.hasValue()) {
+    <section class="game-panel" aria-label="Game presentation">
+      <tq-game-details [gameDetails]="details.value()"/>
+    </section>
 
-    <li [ngbNavItem]="'overview'">
-      <button ngbNavLink>Presentation</button>
-      <ng-template ngbNavContent>
-        @if (details.isLoading()) {
-          <tq-spinner/>
-        } @else if (details.error()) {
-          <div class="alert alert-danger" role="alert">Failed to fetch game details</div>
-        } @else if (details.hasValue()) {
-          <tq-game-details [gameDetails]="details.value()"/>
-        }
-      </ng-template>
-    </li>
-
-    <li [ngbNavItem]="'trophies'">
-      <button ngbNavLink>Trophies</button>
-      <ng-template ngbNavContent>
+    <div class="game-activity">
+      <section class="game-panel" aria-labelledby="game-suites-heading" [attr.aria-busy]="suites.isLoading()">
+        <h2 id="game-suites-heading">Suites</h2>
         @if (suites.isLoading()) {
           <tq-spinner/>
         } @else if (suites.error()) {
-          <div class="alert alert-danger" role="alert">Failed to fetch suites</div>
+          <p class="game-error" role="alert">Failed to load suites.</p>
         } @else if (suites.hasValue()) {
-          <div class="trophy-panel">
-            <tq-game-suite-list [suites]="suites.value()"
-                                [suiteId]="selectedSuiteId()"
-                                (selectSuite)="selectSuite($event)"/>
-            @if (trophies.isLoading()) {
-              <tq-spinner/>
-            } @else if (trophies.error()) {
-              <div class="alert alert-danger" role="alert">Failed to fetch suites</div>
-            } @else if (trophies.hasValue()) {
-              <tq-game-trophy-list [trophies]="trophies.value()"
-                                   [selectedPlayerId]="selectedPlayerId()"/>
-            }
-          </div>
+          <tq-game-suite-list [suites]="suites.value()"/>
         }
-      </ng-template>
-    </li>
+      </section>
 
-    <li [ngbNavItem]="'players'">
-      <button ngbNavLink>Players</button>
-      <ng-template ngbNavContent>
+      <section class="game-panel" aria-labelledby="game-players-heading" [attr.aria-busy]="players.isLoading()">
+        <h2 id="game-players-heading">Last players</h2>
         @if (players.isLoading()) {
           <tq-spinner/>
         } @else if (players.error()) {
-          <div class="alert alert-danger" role="alert">Failed to fetch players</div>
+          <p class="game-error" role="alert">Failed to load players.</p>
         } @else if (players.hasValue()) {
-          <tq-game-players [playersPagination]="players.value()"
-                           (selectPlayer)="selectPlayer($event)"
-                           (selectPage)="selectPlayerPage($event)"/>
+          <tq-game-players [players]="players.value()"/>
         }
-      </ng-template>
-    </li>
-  </ul>
-
-  <div class="game-page-content" [ngbNavOutlet]="nav"></div>
-</div>
+      </section>
+    </div>
+  }
+</main>

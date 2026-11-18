@@ -1,12 +1,10 @@
 import {Service} from '@angular/core';
 import {environment} from '@environment';
-import {HttpParams, httpResource} from '@angular/common/http';
+import {httpResource} from '@angular/common/http';
 import {BackgroundImageResponse} from '@core/background/models/background-image-response.model';
 import {GameDetailsResponse} from '../models/game-details-response';
-import {GameSuiteItem} from '../models/game-suite-item';
-import {GamePlayerItem} from '../models/game-player-item';
-import {GameTrophyItem} from '../models/game-trophy-item';
-import {Pagination} from '@core/models/pagination';
+import {SuiteItem} from '@shared/models/suite-item';
+import {PlayerItem} from '@shared/models/player-item';
 
 @Service()
 export class GameApiService {
@@ -20,32 +18,16 @@ export class GameApiService {
   }
 
   suites(gameId: () => string | null) {
-    return httpResource<GameSuiteItem[]>(() => {
+    return httpResource<SuiteItem[]>(() => {
       return gameId() ? {url: `${this.apiUrl}/${gameId()}/suites`} : undefined;
     });
   }
 
-  players(
-    gameId: () => string | null,
-    page: () => number,
-  ) {
-    const params = new HttpParams().set('page', page().toString());
-    return httpResource<Pagination<GamePlayerItem>>(() => {
-      return gameId() ? {url: `${this.apiUrl}/${gameId()}/players`, params} : undefined;
-    });
-  }
-
-  trophies(
-    suiteId: () => string | null,
-    playerId: () => string | null,
-  ) {
-    return httpResource<GameTrophyItem[]>(() => {
-      let params = new HttpParams();
-      if (playerId()) {
-        params = params.set('playerId', playerId() ?? '');
-      }
-      return suiteId() ? {url: `${this.apiUrl}/suite/${suiteId()}/trophies`, params} : undefined;
-    });
+  players(gameId: () => string | null, size: number) {
+    return httpResource<PlayerItem[]>(() => gameId() ? {
+      url: `${this.apiUrl}/${gameId()}/players`,
+      params: {size},
+    } : undefined);
   }
 
   background(gameId: () => string | null) {

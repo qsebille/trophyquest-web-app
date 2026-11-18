@@ -1,0 +1,110 @@
+<main class="suite-page">
+  @if (suite.isLoading()) {
+    <tq-spinner/>
+  } @else if (suite.error()) {
+    <div class="suite-error" role="alert">
+      {{ suiteNotFound() ? 'Suite not found.' : 'Failed to load suite.' }}
+      @if (!suiteNotFound()) {
+        <button class="suite-button" type="button" (click)="suite.reload()">Retry</button>
+      }
+    </div>
+  } @else if (suite.hasValue()) {
+    @let details = suite.value();
+    <header class="suite-header">
+      <tq-suite-card [suite]="details" [heading]="true">
+        @if (details.gameId !== null) {
+          <a [routerLink]="['/game', details.gameId]">{{ game.hasValue() ? game.value().title : 'View game' }}</a>
+        }
+        <tq-trophy-count [platinumCount]="details.nbPlatinumTrophies"
+                         [goldCount]="details.nbGoldTrophies"
+                         [silverCount]="details.nbSilverTrophies"
+                         [bronzeCount]="details.nbBronzeTrophies"/>
+      </tq-suite-card>
+    </header>
+
+    <div class="suite-content">
+      <nav class="suite-tabs" aria-label="Suite sections">
+        <a routerLink="." [queryParams]="{tab: 'trophies'}" queryParamsHandling="merge"
+           [attr.aria-current]="selectedTab() === 'trophies' ? 'page' : null">Trophies</a>
+        <a routerLink="." [queryParams]="{tab: 'players'}" queryParamsHandling="merge"
+           [attr.aria-current]="selectedTab() === 'players' ? 'page' : null">Players</a>
+      </nav>
+
+      @if (selectedTab() === 'trophies') {
+        <section class="suite-panel" aria-label="Trophies" [attr.aria-busy]="trophies.isLoading()">
+          @if (playerId(); as id) {
+            <div class="suite-player-selection">
+              <span>Selected player:
+                @if (selectedPlayer.hasValue()) {
+                  <a [routerLink]="['/player', id]">{{ selectedPlayer.value().pseudo }}</a>
+                } @else if (selectedPlayer.isLoading()) {
+                  Loading…
+                } @else {
+                  <a [routerLink]="['/player', id]">View profile</a>
+                }
+              </span>
+              <a class="suite-button" routerLink="." [queryParams]="{playerId: null}"
+                 queryParamsHandling="merge">Clear selection</a>
+            </div>
+          } @else {
+            <p class="suite-muted">
+              <a routerLink="." [queryParams]="{tab: 'players'}" queryParamsHandling="merge">Select a player</a>
+              to see their earned trophies.
+            </p>
+          }
+          @if (trophies.isLoading()) {
+            <tq-spinner/>
+          } @else if (trophies.error()) {
+            <div class="suite-error" role="alert">
+              Failed to load trophies.
+              <button class="suite-button" type="button" (click)="trophies.reload()">Retry</button>
+            </div>
+          } @else if (trophies.hasValue()) {
+            <tq-trophy-list [trophies]="trophies.value()" [selectedPlayerId]="playerId()"/>
+          }
+        </section>
+      } @else {
+        <section class="suite-panel" aria-label="Players" [attr.aria-busy]="players.isLoading()">
+          @if (players.isLoading()) {
+            <tq-spinner/>
+          } @else if (players.error()) {
+            <div class="suite-error" role="alert">
+              Failed to load players.
+              <button class="suite-button" type="button" (click)="players.reload()">Retry</button>
+            </div>
+          } @else if (players.hasValue()) {
+            @let result = players.value();
+            @if (result.content.length > 0) {
+              <ul class="suite-player-list">
+                @for (player of result.content; track player.playerId) {
+                  <li>
+                    <tq-player-card [player]="player">
+                      <a class="suite-button" routerLink="." queryParamsHandling="merge"
+                         [queryParams]="{tab: 'trophies', playerId: player.playerId}"
+                         [attr.aria-label]="'View trophies for ' + player.pseudo">View trophies</a>
+                    </tq-player-card>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="suite-muted">{{ result.total === 0 ? 'No players yet.' : 'No players on this page.' }}</p>
+            }
+            @if (result.total > result.size || result.page > 0) {
+              <nav class="suite-pagination" aria-label="Players pagination">
+                @if (result.page > 0) {
+                  <a class="suite-button" routerLink="." [queryParams]="{playerPage: result.page - 1 || null}"
+                     queryParamsHandling="merge">Previous</a>
+                }
+                <span>Page {{ result.page + 1 }}</span>
+                @if ((result.page + 1) * result.size < result.total) {
+                  <a class="suite-button" routerLink="." [queryParams]="{playerPage: result.page + 1}"
+                     queryParamsHandling="merge">Next</a>
+                }
+              </nav>
+            }
+          }
+        </section>
+      }
+    </div>
+  }
+</main>

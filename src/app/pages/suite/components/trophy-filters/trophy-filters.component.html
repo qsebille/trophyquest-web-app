@@ -1,0 +1,16 @@
+<div class="trophy-filters">
+  @if (selectedPlayerId()) {
+    <label class="trophy-filter">
+      Trophy status
+      <select #status [value]="earnedFilter()" (change)="onEarnedFilterChange(status.value)">
+        <option value="all">All trophies</option>
+        <option value="earned">Earned only</option>
+        <option value="unearned">Unearned only</option>
+      </select>
+    </label>
+  }
+  <label class="hidden-filter">
+    <input #hidden type="checkbox" (change)="hiddenFilterChange.emit(hidden.checked)"/>
+    Show hidden trophies
+  </label>
+</div>

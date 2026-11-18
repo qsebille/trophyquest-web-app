@@ -1,11 +1,11 @@
 <div class="game-details">
   <div class="game-details-header">
-    <img [ngSrc]="gameDetails().coverUrl"
+    <img [ngSrc]="gameDetails().coverUrl || '/assets/icons/missing-game-image.svg'"
          height="128" width="128"
          class="game-cover"
          alt="{{ gameDetails().title }} cover"/>
     <div class="game-details-header-infos">
-      <div class="game-title">{{ gameDetails().title }}</div>
+      <h1 class="game-title">{{ gameDetails().title }}</h1>
       <div class="text-muted" [hidden]="!gameDetails().releaseDate">
         Release Date: {{ gameDetails().releaseDate | date }}
       </div>
