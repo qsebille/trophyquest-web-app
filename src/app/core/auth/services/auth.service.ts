@@ -4,7 +4,6 @@ import {firstValueFrom} from 'rxjs';
 import {environment} from '@environment';
 import {AuthState} from '../models/auth-state';
 import {TokenResponse} from '../models/token-response';
-import {AuthUser} from '../models/auth-user.model';
 import {AuthApiService} from './auth-api.service';
 
 
@@ -19,11 +18,16 @@ export class AuthService {
 
   readonly authState = signal<AuthState | null>(this.restoreAuthState());
 
-  readonly currentUser = signal<AuthUser | null>(null);
   readonly isAuthenticated = computed(() => {
     const state = this.authState();
     return !!state && state.expiresAt > Date.now();
   });
+
+  private readonly profile = this.authApiService.fetchCurrentUser(
+    () => this.isAuthenticated() ? this.authState()?.accessToken : undefined,
+  );
+  readonly currentUser = computed(() => this.profile.hasValue() ? this.profile.value() : null);
+  readonly profileLoadFailed = computed(() => this.profile.status() === 'error');
 
   async register(): Promise<void> {
     await this.redirectToCognito('/signup');
@@ -96,9 +100,15 @@ export class AuthService {
   }
 
   refreshCurrentUser(): void {
-    this.authApiService.fetchCurrentUser().subscribe((user) => {
-      this.currentUser.set(user);
-    });
+    this.profile.reload();
+  }
+
+  async updateDisplayName(displayName: string): Promise<void> {
+    const session = this.authState();
+    const user = await firstValueFrom(this.authApiService.updateDisplayName(displayName));
+    if (this.authState() === session) {
+      this.profile.set(user);
+    }
   }
 
   private get redirectUri(): string {

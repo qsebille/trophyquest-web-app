@@ -19,7 +19,6 @@ export class AuthCallbackComponent {
 
     try {
       await this.authService.handleCallback(code, state);
-      this.authService.refreshCurrentUser();
       void this.router.navigate(['/']);
     } catch {
       void this.router.navigate(['/error']);
