@@ -54,6 +54,8 @@ describe('AuthCallbackComponent', () => {
     http.expectOne(`${homeUrl}/top-games?size=10`).flush([]);
     http.expectOne(`${homeUrl}/top-players?size=10`).flush([]);
 
+    await fixture.whenStable();
+    fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('#userMenu')?.textContent.trim()).toBe('Camille');
     http.verify();
   });

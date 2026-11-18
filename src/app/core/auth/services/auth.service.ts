@@ -4,7 +4,6 @@ import {firstValueFrom} from 'rxjs';
 import {environment} from '@environment';
 import {AuthState} from '../models/auth-state';
 import {TokenResponse} from '../models/token-response';
-import {AuthUser} from '../models/auth-user.model';
 import {AuthApiService} from './auth-api.service';
 
 
@@ -19,12 +18,16 @@ export class AuthService {
 
   readonly authState = signal<AuthState | null>(this.restoreAuthState());
 
-  readonly currentUser = signal<AuthUser | null>(null);
-  readonly profileLoadFailed = signal(false);
   readonly isAuthenticated = computed(() => {
     const state = this.authState();
     return !!state && state.expiresAt > Date.now();
   });
+
+  private readonly profile = this.authApiService.fetchCurrentUser(
+    () => this.isAuthenticated() ? this.authState()?.accessToken : undefined,
+  );
+  readonly currentUser = computed(() => this.profile.hasValue() ? this.profile.value() : null);
+  readonly profileLoadFailed = computed(() => this.profile.status() === 'error');
 
   async register(): Promise<void> {
     await this.redirectToCognito('/signup');
@@ -85,7 +88,6 @@ export class AuthService {
 
   logout(): void {
     this.authState.set(null);
-    this.currentUser.set(null);
     sessionStorage.removeItem('auth_state');
     sessionStorage.removeItem('oauth_state');
     sessionStorage.removeItem('pkce_code_verifier');
@@ -98,27 +100,14 @@ export class AuthService {
   }
 
   refreshCurrentUser(): void {
-    const session = this.authState();
-    this.profileLoadFailed.set(false);
-    this.authApiService.fetchCurrentUser().subscribe({
-      next: user => {
-        if (this.authState() === session) {
-          this.currentUser.set(user);
-        }
-      },
-      error: () => {
-        if (this.authState() === session) {
-          this.profileLoadFailed.set(true);
-        }
-      },
-    });
+    this.profile.reload();
   }
 
   async updateDisplayName(displayName: string): Promise<void> {
     const session = this.authState();
     const user = await firstValueFrom(this.authApiService.updateDisplayName(displayName));
     if (this.authState() === session) {
-      this.currentUser.set(user);
+      this.profile.set(user);
     }
   }
 

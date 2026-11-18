@@ -25,10 +25,4 @@ export class NavbarComponent {
     const currentUser = this.authService.currentUser()
     return currentUser?.displayName || currentUser?.email || 'Account';
   });
-
-  ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.authService.refreshCurrentUser();
-    }
-  }
 }
