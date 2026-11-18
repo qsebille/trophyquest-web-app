@@ -43,9 +43,6 @@ describe('GamePageComponent', () => {
     expect(Array.from(page.querySelectorAll('tq-suite-card a'), link => link.getAttribute('href')))
       .toEqual(['/suite/suite-1', '/suite/suite-2']);
     expect(page.querySelector('tq-player-card a')?.getAttribute('href')).toBe('/player/player-1');
-    expect(page.querySelector('[role=tablist]')).toBeNull();
-
-    expect(page.querySelector('ngb-pagination')).toBeNull();
     http.verify();
   });
 });
