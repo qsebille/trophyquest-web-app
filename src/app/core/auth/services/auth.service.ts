@@ -1,5 +1,6 @@
 import {computed, inject, Service, signal} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {firstValueFrom} from 'rxjs';
 import {environment} from '@environment';
 import {AuthState} from '../models/auth-state';
@@ -28,6 +29,10 @@ export class AuthService {
   );
   readonly currentUser = computed(() => this.profile.hasValue() ? this.profile.value() : null);
   readonly profileLoadFailed = computed(() => this.profile.status() === 'error');
+  readonly isAdmin = computed(() => this.isAuthenticated() && this.currentUser()?.isAdmin === true);
+  readonly adminAccess$ = toObservable(computed(() =>
+    this.isAuthenticated() && this.profile.isLoading() ? undefined : this.isAdmin(),
+  ));
 
   async register(): Promise<void> {
     await this.redirectToCognito('/signup');
