@@ -53,6 +53,12 @@
   font-size: .875rem;
 }
 
+.suite-card-heading-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
 .suite-card-heading {
   flex-wrap: wrap;
   gap: 1rem 1.5rem;

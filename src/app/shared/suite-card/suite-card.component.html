@@ -4,7 +4,10 @@
        [attr.loading]="heading() ? null : 'lazy'" alt=""/>
   <div class="suite-card-details">
     @if (heading()) {
-      <h1>{{ suite().title }}</h1>
+      <div class="suite-card-heading-row">
+        <h1>{{ suite().title }}</h1>
+        <ng-content select="[suite-title-action]"/>
+      </div>
     } @else {
       <a class="suite-card-title" [routerLink]="['/suite', suite().suiteId]">{{ suite().title }}</a>
     }
