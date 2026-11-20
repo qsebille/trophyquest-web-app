@@ -6,6 +6,7 @@ import {PlayerSearchPageComponent} from '@player-search/player-search-page.compo
 import {AssociationPageComponent} from '@association/association-page.component';
 import {AuthCallbackComponent} from '@core/auth/auth-callback/auth-callback.component';
 import {authGuard} from '@core/auth/auth.guard';
+import {adminGuard} from '@core/auth/admin.guard';
 
 import {AccountPageComponent} from './pages/account/account-page.component';
 import {PlayerProfilePageComponent} from './pages/player-profile/player-profile-page.component';
@@ -18,7 +19,7 @@ export const routes: Routes = [
   {path: 'game-search', component: GameSearchPageComponent},
   {path: 'player/:playerId', component: PlayerProfilePageComponent},
   {path: 'player-search', component: PlayerSearchPageComponent},
-  {path: 'association', component: AssociationPageComponent},
+  {path: 'association', component: AssociationPageComponent, canActivate: [adminGuard]},
   {path: 'auth/callback', component: AuthCallbackComponent},
   {path: 'account', component: AccountPageComponent, canActivate: [authGuard]},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
