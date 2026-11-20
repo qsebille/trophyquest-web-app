@@ -1,0 +1,43 @@
+import {Component, computed, input} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {DecimalPipe, NgOptimizedImage} from "@angular/common";
+import {HomePlayerItem} from '@home/api/dto/home-player-item';
+import {TrophyCountComponent} from '@shared/trophy-count/trophy-count.component';
+
+@Component({
+  selector: 'tq-home-player-card',
+  imports: [
+    NgOptimizedImage,
+    DecimalPipe,
+    TrophyCountComponent,
+    RouterLink,
+  ],
+  templateUrl: './home-player-card.component.html',
+  styleUrl: './home-player-card.component.scss',
+})
+export class HomePlayerCardComponent {
+  readonly player = input.required<HomePlayerItem>();
+
+  readonly nbRecentlyEarnedTrophies = computed(() => {
+    return this.player().nbRecentBronzeTrophies +
+      this.player().nbRecentSilverTrophies +
+      this.player().nbRecentGoldTrophies +
+      this.player().nbRecentPlatinumTrophies
+  });
+
+
+  getEarnedTrophyByType(type: string): number {
+    switch (type) {
+      case 'platinum':
+        return this.player().nbRecentPlatinumTrophies;
+      case 'gold':
+        return this.player().nbRecentGoldTrophies;
+      case 'silver':
+        return this.player().nbRecentSilverTrophies;
+      case 'bronze':
+        return this.player().nbRecentBronzeTrophies;
+      default:
+        return 0;
+    }
+  }
+}

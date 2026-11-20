@@ -1,0 +1,148 @@
+@use 'styles/variables/colors' as *;
+
+.association-page {
+  --sticky-offset: 3rem;
+  --association-header-height: 76px;
+  max-width: 82.5rem;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+
+  &-header {
+    display: block;
+    position: sticky;
+    top: var(--sticky-offset);
+    z-index: 20;
+    padding: 1rem;
+    min-height: var(--association-header-height);
+  }
+
+  .main-block {
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+    align-items: start;
+    gap: 2rem;
+    padding-block: 1.5rem;
+  }
+
+  .suite-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: calc(
+      var(--sticky-offset) +
+      var(--association-header-height) +
+      1rem
+    );
+    align-self: start;
+  }
+
+  .association-action {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid currentColor;
+    border-radius: 0.375rem;
+
+    &:disabled {
+      opacity: 0.65;
+    }
+  }
+
+  .validate-action {
+    margin-top: 1.5rem;
+    background-color: $tq-green-medium;
+    border-color: $tq-green-medium;
+    color: white;
+
+    &:enabled:hover {
+      background-color: $tq-green-dark;
+    }
+  }
+
+  .reject-action {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: $tq-red-dark;
+
+    &:enabled:hover {
+      background-color: $tq-red-lighter;
+    }
+  }
+
+  .right-panel {
+    min-width: 0;
+  }
+
+  .candidates-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .candidates-title {
+    font-weight: 600;
+  }
+
+  .candidates-description {
+    font-size: 0.875em;
+    color: $tq-gray-medium;
+  }
+
+  .candidate-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .candidate-list tq-association-candidate-card {
+    display: block;
+    width: 100%;
+  }
+
+  @media (max-width: 992px) {
+    .main-block {
+      grid-template-columns: 1fr;
+    }
+
+    .suite-panel {
+      position: static;
+      max-width: 360px;
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+
+  .association-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-block: 3rem;
+    text-align: center;
+
+    .empty-icon {
+      font-size: 2rem;
+    }
+
+    h4 {
+      margin: 0;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+      color: $tq-gray-medium;
+    }
+  }
+
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+}

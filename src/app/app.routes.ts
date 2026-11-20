@@ -1,16 +1,16 @@
 import {Routes} from '@angular/router';
-import {HomePageComponent} from '@home/home-page.component';
-import {GamePageComponent} from '@game/game-page.component';
-import {GameSearchPageComponent} from '@game-search/game-search-page.component';
-import {PlayerSearchPageComponent} from '@player-search/player-search-page.component';
-import {AssociationPageComponent} from '@association/association-page.component';
+import {HomePageComponent} from '@home/components/home-page/home-page.component';
+import {GamePageComponent} from '@game/components/game-page/game-page.component';
+import {GameSearchPageComponent} from '@game-search/components/game-search-page/game-search-page.component';
+import {PlayerSearchPageComponent} from '@player-search/components/player-search-page/player-search-page.component';
+import {AssociationPageComponent} from '@association/components/association-page/association-page.component';
 import {AuthCallbackComponent} from '@core/auth/auth-callback/auth-callback.component';
 import {authGuard} from '@core/auth/auth.guard';
 import {adminGuard} from '@core/auth/admin.guard';
 
-import {AccountPageComponent} from './pages/account/account-page.component';
-import {PlayerProfilePageComponent} from './pages/player-profile/player-profile-page.component';
-import {SuitePageComponent} from './pages/suite/suite-page.component';
+import {AccountPageComponent} from './features/account/components/account-page/account-page.component';
+import {PlayerProfilePageComponent} from './features/player-profile/components/player-profile-page/player-profile-page.component';
+import {SuitePageComponent} from './features/suite/components/suite-page/suite-page.component';
 
 export const routes: Routes = [
   {path: 'home', component: HomePageComponent},

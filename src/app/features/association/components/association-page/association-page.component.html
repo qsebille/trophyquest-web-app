@@ -1,0 +1,57 @@
+<div class="association-page">
+
+  @if (associationPagination.hasValue() && associationPagination.value().total > 0) {
+    <tq-association-header class="association-page-header"
+                           [associationPagination]="associationPagination.value()"
+                           (previousAssociation)="previousAssociation()"
+                           (nextAssociation)="nextAssociation()"/>
+
+    @if (association(); as association) {
+      <main class="main-block">
+        <aside class="suite-panel">
+          <tq-association-suite-card
+            [suite]="association.suite"/>
+
+          <button type="button" class="association-action validate-action"
+                  [disabled]="selectedGameId() === null || isLoadingValidation()"
+                  (click)="validateAssociation()">
+            Valider
+          </button>
+          <button type="button" class="association-action reject-action"
+                  [disabled]="isLoadingValidation()"
+                  (click)="rejectAllCandidates()">
+            Aucun candidat valide
+          </button>
+        </aside>
+
+        <section class="right-panel">
+          <div class="candidates-heading">
+            <span class="candidates-title">Candidats IGDB</span>
+            <span class="candidates-description">Classés par score de correspondance</span>
+          </div>
+
+          <div class="candidate-list">
+            @for (candidate of candidates(); track candidate) {
+              <tq-association-candidate-card [candidate]="candidate"
+                                             [isSelected]="selectedGameId() === candidate.gameId"
+                                             (selectCandidate)="selectCandidate(candidate.gameId)"/>
+            }
+          </div>
+        </section>
+      </main>
+    }
+  } @else {
+    <div class="association-empty">
+      <span class="empty-icon" aria-hidden="true">✅</span>
+      <h4>Tout est à jour !</h4>
+      <p>Il n'y a aucune association à valider pour le moment.</p>
+    </div>
+  }
+
+
+  @if (isLoadingValidation()) {
+    <div class="loading-overlay">
+      <tq-spinner/>
+    </div>
+  }
+</div>

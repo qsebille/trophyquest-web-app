@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="navigation-bar">
   <div class="navbar-left" routerLink="/home" id="navbar-trophyquest-logo">
     <img alt="" class="navbar-logo" height="32" ngSrc="/assets/icons/trophyquest-icon-32.png" width="32"/>
     <span class="navbar-title">TrophyQuest</span>
@@ -13,18 +13,18 @@
   </ul>
 
   @if (authService.isAuthenticated()) {
-    <div ngbDropdown class="d-inline-block">
-      <button class="btn text-white" id="userMenu" ngbDropdownToggle>
+    <div ngbDropdown>
+      <button class="menu-toggle" id="userMenu" ngbDropdownToggle>
         <span class="user-menu-name">{{ currentUserName() }}</span>
       </button>
       <div ngbDropdownMenu aria-labelledby="userMenu" class="dropdown-menu dropdown-menu-end">
         <a ngbDropdownItem routerLink="/account">Account</a>
-        <button ngbDropdownItem class="fw-bold text-danger" (click)="authService.logout()">Logout</button>
+        <button ngbDropdownItem class="logout-action" (click)="authService.logout()">Logout</button>
       </div>
     </div>
   } @else {
-    <div ngbDropdown class="d-inline-block">
-      <button class="btn text-white" id="registerMenu" ngbDropdownToggle>
+    <div ngbDropdown>
+      <button class="menu-toggle" id="registerMenu" ngbDropdownToggle>
         Connect
       </button>
       <div ngbDropdownMenu aria-labelledby="registerMenu" class="dropdown-menu dropdown-menu-end">

@@ -1,0 +1,27 @@
+<div class="player-search-page">
+  <div class="search-bar">
+    <input type="text"
+           placeholder="Search players"
+           class="search-input"
+           aria-label="Search players"
+           #searchInput
+           [value]="query()"
+           (input)="changeSearchQuery(searchInput.value)"/>
+  </div>
+
+  <div class="search-results">
+    @for (player of loadedPlayers(); track player.id) {
+      <tq-player-search-card [player]="player" class="search-result"/>
+    }
+  </div>
+
+  @if (players.hasValue() && loadedPlayers().length < players.value().total) {
+    <div class="search-pagination">
+      <button type="button" class="load-more-button"
+              (click)="loadMore()"
+              [disabled]="players.isLoading()">
+        Load more
+      </button>
+    </div>
+  }
+</div>

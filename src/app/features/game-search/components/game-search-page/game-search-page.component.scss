@@ -1,0 +1,5 @@
+@use 'styles/mixins/search-page' as *;
+
+.game-search-page {
+  @include search-page;
+}

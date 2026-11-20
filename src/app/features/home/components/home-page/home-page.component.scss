@@ -1,0 +1,44 @@
+@use 'styles/variables/colors' as *;
+@use 'styles/mixins/box' as *;
+
+.home-page {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  max-width: 82.5rem;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+
+  &-panel {
+    @include tq-box;
+    background-color: $tq-white;
+    flex: 1;
+    min-width: 0;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.4rem;
+
+    &-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: .3rem;
+    }
+  }
+
+  &-empty {
+    color: $tq-gray-medium;
+  }
+
+  @media (max-width: 40rem) {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,31 @@
+<div class="association-header">
+  <div class="header-summary">
+    <span class="header-title">Association Suite PSN – Jeu IGDB</span>
+
+    <div class="pending-count">
+      <b>{{ associationPagination().total }}</b> suites à valider
+    </div>
+  </div>
+
+  <div class="header-navigation">
+    <div class="page-number">
+      {{ associationPagination().page + 1 }} / {{ associationPagination().total }}
+    </div>
+
+    <div class="navigation-buttons">
+      <button
+        type="button"
+        class="navigation-button previous-button"
+        (click)="previousAssociation.emit()">
+        Précédent
+      </button>
+
+      <button
+        type="button"
+        class="navigation-button next-button"
+        (click)="nextAssociation.emit()">
+        Suivant
+      </button>
+    </div>
+  </div>
+</div>
