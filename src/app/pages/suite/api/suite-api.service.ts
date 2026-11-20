@@ -1,5 +1,5 @@
-import {Service} from '@angular/core';
-import {httpResource} from '@angular/common/http';
+import {inject, Service} from '@angular/core';
+import {HttpClient, httpResource} from '@angular/common/http';
 import {BackgroundImageResponse} from '@core/background/models/background-image-response.model';
 import {Pagination} from '@core/models/pagination';
 import {environment} from '@environment';
@@ -10,6 +10,7 @@ import {SuiteDetails} from '../models/suite-details';
 
 @Service()
 export class SuiteApiService {
+  private readonly http = inject(HttpClient);
   private readonly url = `${environment.apiUrl}/suite`;
 
   details(suiteId: () => string | null) {
@@ -17,6 +18,10 @@ export class SuiteApiService {
       const id = suiteId();
       return id ? `${this.url}/${encodeURIComponent(id)}` : undefined;
     });
+  }
+
+  updateTitle(suiteId: string, title: string) {
+    return this.http.put<SuiteDetails>(`${this.url}/${encodeURIComponent(suiteId)}/title`, {title});
   }
 
   background(suiteId: () => string | null) {

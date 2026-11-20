@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Edit suite title</h2>
+<form [attr.aria-busy]="saving()" (submit)="saveTitle($event)">
+  <mat-dialog-content class="suite-title-form">
+    <label for="suite-title">Suite title</label>
+    <input #titleInput id="suite-title" type="text" required [value]="title()" [readonly]="saving()"
+           (focus)="selectInitialTitle(titleInput)" (input)="changeTitle(titleInput.value)"/>
+    @if (error()) {
+      <p class="visually-hidden" role="alert">{{ error() }}</p>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" class="suite-title-buttons">
+    <button class="suite-button" type="button" [disabled]="saving()" (click)="cancelTitleEdit()">
+      Cancel
+    </button>
+    <button class="suite-button suite-title-save" type="submit" [disabled]="saving() || !title().trim()">
+      {{ saving() ? 'Saving…' : 'Save' }}
+    </button>
+  </mat-dialog-actions>
+</form>

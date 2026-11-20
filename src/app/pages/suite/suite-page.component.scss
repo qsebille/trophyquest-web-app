@@ -78,10 +78,27 @@
   background: $tq-white;
   text-decoration: none;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: $tq-blue-medium;
     color: $tq-white;
   }
+
+  &:disabled {
+    opacity: .65;
+  }
+}
+
+.suite-title-action {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: .25rem;
+  background: transparent;
+  cursor: pointer;
 }
 
 .suite-error {

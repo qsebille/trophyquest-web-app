@@ -12,6 +12,12 @@
     @let details = suite.value();
     <header class="suite-header">
       <tq-suite-card [suite]="details" [heading]="true">
+        @if (isAdmin()) {
+          <button suite-title-action class="suite-title-action" type="button" aria-label="Edit title"
+                  aria-haspopup="dialog" (click)="editTitle()">
+            <img src="/assets/icons/pencil.svg" width="18" height="18" alt=""/>
+          </button>
+        }
         @if (details.gameId !== null) {
           <a [routerLink]="['/game', details.gameId]">{{ game.hasValue() ? game.value().title : 'View game' }}</a>
         }

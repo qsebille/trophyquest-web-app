@@ -1,9 +1,13 @@
 import {provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
+import {signal} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
+import {provideNoopAnimations} from '@angular/platform-browser/animations';
 import {provideRouter, Router, withComponentInputBinding} from '@angular/router';
+import {AuthService} from '@core/auth/services/auth.service';
 import {RouterTestingHarness} from '@angular/router/testing';
 import {BackgroundService, DEFAULT_BACKGROUND_URL} from '@core/background/background.service';
+import {NotificationService} from '@core/notification/notification.service';
 import {environment} from '@environment';
 import {routes} from '../../app.routes';
 import {SuiteDetails} from './models/suite-details';
@@ -29,6 +33,7 @@ describe('SuitePageComponent', () => {
   const suiteUrl = `${api}/suite/suite-1`;
   let harness: RouterTestingHarness;
   let http: HttpTestingController;
+  const isAdmin = signal(false);
 
   async function render() {
     await new Promise(resolve => setTimeout(resolve, 0));
@@ -44,8 +49,15 @@ describe('SuitePageComponent', () => {
   }
 
   beforeEach(async () => {
+    isAdmin.set(false);
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter(routes, withComponentInputBinding())],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter(routes, withComponentInputBinding()),
+        provideNoopAnimations(),
+        {provide: AuthService, useValue: {isAdmin}},
+      ],
     });
     http = TestBed.inject(HttpTestingController);
     harness = await RouterTestingHarness.create();
@@ -64,10 +76,111 @@ describe('SuitePageComponent', () => {
     await render();
 
     expect(harness.routeNativeElement!.querySelector('h1')?.textContent).toBe(suite.title);
+    expect(harness.routeNativeElement!.querySelector('button[aria-label="Edit title"]')).toBeNull();
     const link = harness.routeNativeElement!.querySelector('.suite-header a');
     expect(link?.getAttribute('href')).toBe('/game/1001');
     expect(link?.textContent).toBe('Tomb Raider Collection');
     expect(harness.routeNativeElement!.textContent).toContain('No trophies yet.');
+  });
+
+  it('lets admins edit the title in a dialog and keeps the active player tab', async () => {
+    isAdmin.set(true);
+    const url = '/suite/suite-1?tab=players&playerId=player-1';
+    await harness.navigateByUrl(url, SuitePageComponent);
+    await render();
+    http.expectOne(suiteUrl).flush({...suite, gameId: null});
+    http.expectOne(`${suiteUrl}/background`).flush({url: null});
+    await render();
+    http.expectOne(`${suiteUrl}/players?page=0&size=10`).flush({content: [], total: 0, page: 0, size: 10});
+    await render();
+
+    const page = harness.routeNativeElement!;
+    const pencil = page.querySelector<HTMLButtonElement>('button[aria-label="Edit title"]')!;
+    expect(pencil.querySelector('img')?.getAttribute('src')).toBe('/assets/icons/pencil.svg');
+    expect(pencil.previousElementSibling?.tagName).toBe('H1');
+    pencil.click();
+    await render();
+
+    const dialog = document.querySelector<HTMLElement>('[role="dialog"]')!;
+    expect(dialog.getAttribute('aria-modal')).toBe('true');
+    expect(dialog.querySelector('h2')?.textContent).toBe('Edit suite title');
+    expect(page.querySelector('#suite-title')).toBeNull();
+    const input = dialog.querySelector<HTMLInputElement>('#suite-title')!;
+    const save = dialog.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const form = dialog.querySelector<HTMLFormElement>('form')!;
+    expect(input.value).toBe(suite.title);
+    expect(document.activeElement).toBe(input);
+    expect([input.selectionStart, input.selectionEnd]).toEqual([0, suite.title.length]);
+    input.value = '  ';
+    input.dispatchEvent(new Event('input'));
+    await render();
+    expect(save.disabled).toBe(true);
+
+    input.value = '  Corrected title  ';
+    input.dispatchEvent(new Event('input'));
+    form.dispatchEvent(new Event('submit', {cancelable: true}));
+    form.dispatchEvent(new Event('submit', {cancelable: true}));
+    await render();
+    expect(save.disabled).toBe(true);
+    const request = http.expectOne({method: 'PUT', url: `${suiteUrl}/title`});
+    expect(request.request.body).toEqual({title: 'Corrected title'});
+    request.flush('Forbidden', {status: 403, statusText: 'Forbidden'});
+    await render();
+    expect(input.value).toBe('  Corrected title  ');
+    expect(form.querySelector('[role="alert"]')?.textContent).toContain('Failed to save');
+    const notifications = TestBed.inject(NotificationService);
+    expect(notifications.notifications).toContainEqual(expect.objectContaining({
+      text: 'Failed to save the title. Try again.', classname: 'bg-danger text-light',
+    }));
+
+    save.click();
+    http.expectOne({method: 'PUT', url: `${suiteUrl}/title`})
+      .flush({...suite, gameId: null, title: 'Corrected title'});
+    await render();
+    expect(page.querySelector('h1')?.textContent).toBe('Corrected title');
+    expect(notifications.notifications).toContainEqual(expect.objectContaining({
+      text: 'Suite title updated.', classname: 'bg-success text-light',
+    }));
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
+    expect(TestBed.inject(Router).url).toBe(url);
+    expect(page.querySelector('[aria-current="page"]')?.textContent).toBe('Players');
+
+    pencil.click();
+    await render();
+    document.querySelector<HTMLButtonElement>('[role="dialog"] button[type="button"]')!.click();
+    await render();
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
+    http.expectNone({method: 'PUT', url: `${suiteUrl}/title`});
+  });
+
+  it('closes the editor on a suite change and keeps the new title when a save finishes late', async () => {
+    isAdmin.set(true);
+    await harness.navigateByUrl('/suite/suite-1', SuitePageComponent);
+    await render();
+    http.expectOne(suiteUrl).flush({...suite, gameId: null});
+    http.expectOne(`${suiteUrl}/background`).flush({url: null});
+    await render();
+    http.expectOne(`${suiteUrl}/trophies`).flush([]);
+    await render();
+
+    harness.routeNativeElement!.querySelector<HTMLButtonElement>('button[aria-label="Edit title"]')!.click();
+    await render();
+    document.querySelector<HTMLButtonElement>('[role="dialog"] button[type="submit"]')!.click();
+    const save = http.expectOne({method: 'PUT', url: `${suiteUrl}/title`});
+
+    await harness.navigateByUrl('/suite/suite-2', SuitePageComponent);
+    await render();
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
+    const nextSuiteUrl = `${api}/suite/suite-2`;
+    http.expectOne(nextSuiteUrl).flush({...suite, suiteId: 'suite-2', gameId: null, title: 'Second suite'});
+    http.expectOne(`${nextSuiteUrl}/background`).flush({url: null});
+    await render();
+    http.expectOne(`${nextSuiteUrl}/trophies`).flush([]);
+    save.flush({...suite, gameId: null, title: 'Saved first suite'});
+    await render();
+
+    expect(harness.routeNativeElement!.querySelector('h1')?.textContent).toBe('Second suite');
+    expect(TestBed.inject(NotificationService).notifications).toHaveLength(0);
   });
 
   it('paginates players and keeps the selected player in the trophy tab URL', async () => {

@@ -1,4 +1,4 @@
-import {Service, TemplateRef} from '@angular/core';
+import {Service, signal, TemplateRef} from '@angular/core';
 
 export interface Notification {
   text?: string;
@@ -9,14 +9,18 @@ export interface Notification {
 
 @Service()
 export class NotificationService {
-  notifications: Notification[] = [];
+  private readonly queue = signal<Notification[]>([]);
+
+  get notifications(): readonly Notification[] {
+    return this.queue();
+  }
 
   show(text: string, options: Omit<Notification, 'text'> = {}): void {
-    this.notifications.push({text, ...options});
+    this.queue.update(notifications => [...notifications, {text, ...options}]);
   }
 
   remove(notification: Notification): void {
-    this.notifications = this.notifications.filter(t => t !== notification);
+    this.queue.update(notifications => notifications.filter(toast => toast !== notification));
   }
 
   sendSuccess(message: string): void {
