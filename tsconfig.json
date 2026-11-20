@@ -28,19 +28,19 @@
         "./src/app/shared/*"
       ],
       "@home/*": [
-        "./src/app/pages/home/*"
+        "./src/app/features/home/*"
       ],
       "@game-search/*": [
-        "./src/app/pages/game-search/*"
+        "./src/app/features/game-search/*"
       ],
       "@game/*": [
-        "./src/app/pages/game/*"
+        "./src/app/features/game/*"
       ],
       "@player-search/*": [
-        "./src/app/pages/player-search/*"
+        "./src/app/features/player-search/*"
       ],
       "@association/*": [
-        "./src/app/pages/association/*"
+        "./src/app/features/association/*"
       ]
     }
   },

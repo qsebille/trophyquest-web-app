@@ -1,0 +1,92 @@
+@use 'styles/variables/colors' as *;
+
+.suite-card {
+  overflow: hidden;
+  background-color: $tq-white;
+  border: 1px solid $tq-blue-dark;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px $tq-blue-medium;
+}
+
+.suite-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 190px;
+  padding: 0.5rem;
+  background-color: $tq-blue-lighter;
+  border-bottom: 1px solid $tq-blue-lighter;
+}
+
+.suite-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+.suite-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.suite-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.suite-title {
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.suite-platform {
+  padding: 0.35em 0.65em;
+  border-radius: 999px;
+  background-color: $tq-blue-medium;
+  color: white;
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+.suite-trophy-count {
+  color: $tq-gray-medium;
+  font-size: 0.875em;
+}
+
+.suite-player {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid $tq-blue-lighter;
+  background-color: $tq-blue-lighter;
+}
+
+.player-avatar {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.player-label {
+  color: $tq-gray-medium;
+  font-size: 0.75rem;
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
