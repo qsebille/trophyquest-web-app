@@ -1,0 +1,103 @@
+<main class="statistics-page" [attr.aria-busy]="statistics.isLoading()">
+  <header class="page-header">
+    <div>
+      <h1>Statistics</h1>
+      @if (statistics.hasValue()) {
+        <p>Last measured {{ statistics.value().measuredAt | date:'medium' }}</p>
+      }
+    </div>
+    <button type="button" (click)="statistics.reload()" [disabled]="statistics.isLoading()">
+      Refresh
+    </button>
+  </header>
+
+  @if (statistics.error()) {
+    <p role="alert">Statistics could not be loaded. Select Refresh to try again.</p>
+  } @else if (statistics.hasValue()) {
+    @let data = statistics.value();
+    <section aria-labelledby="upload-heading">
+      <h2 id="upload-heading">S3 upload queue</h2>
+      <p class="queue-total"><strong>{{ totalPending() | number }}</strong> images pending</p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+          <tr>
+            <th scope="col">Image type</th>
+            <th scope="col">With source URL</th>
+            <th scope="col">Cached</th>
+            <th scope="col">Pending</th>
+            <th scope="col">Cache coverage</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (image of data.images; track image.type) {
+              <tr>
+                <th scope="row">{{ imageLabels[image.type] }}</th>
+                <td>{{ image.source | number }}</td>
+                <td>{{ image.cached | number }}</td>
+                <td><strong>{{ image.pending | number }}</strong></td>
+                <td>{{ image.source ? (image.cached / image.source | percent:'1.0-1') : '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="catalog-heading">
+      <h2 id="catalog-heading">Catalog coverage</h2>
+      <dl class="catalog">
+        <div>
+          <dt>Suites linked to a game</dt>
+          <dd>{{ data.catalog.associatedSuites | number }}</dd>
+        </div>
+        <div>
+          <dt>Suites without a game</dt>
+          <dd>{{ data.catalog.unassociatedSuites | number }}</dd>
+        </div>
+        <div>
+          <dt>Games without a background</dt>
+          <dd>{{ data.catalog.gamesWithoutBackground | number }}</dd>
+        </div>
+        <div>
+          <dt>Games with a background</dt>
+          <dd>{{ data.catalog.gamesWithBackground | number }}</dd>
+        </div>
+        <div>
+          <dt>Games with a cover</dt>
+          <dd>{{ data.catalog.gamesWithCover | number }}</dd>
+        </div>
+        <div>
+          <dt>Games with screenshots</dt>
+          <dd>{{ data.catalog.gamesWithScreenshots | number }}</dd>
+        </div>
+        <div>
+          <dt>Players</dt>
+          <dd>{{ data.catalog.players | number }}</dd>
+        </div>
+        <div>
+          <dt>Trophies</dt>
+          <dd>{{ data.catalog.trophies | number }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="history-heading">
+      <div class="section-header">
+        <h2 id="history-heading">Upload queue over the last 24 hours</h2>
+        <label>
+          Image type
+          <select #type (change)="historyType.set($any(type.value))">
+            <option value="all">All image types</option>
+            @for (image of data.images; track image.type) {
+              <option [value]="image.type">{{ imageLabels[image.type] }}</option>
+            }
+          </select>
+        </label>
+      </div>
+      <tq-statistics-history [history]="data.history" [type]="historyType()"/>
+    </section>
+  } @else {
+    <p role="status">Loading statistics…</p>
+  }
+</main>

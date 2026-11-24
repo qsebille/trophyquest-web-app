@@ -1,0 +1,100 @@
+@use 'styles/variables/colors' as *;
+
+.statistics-page {
+  max-width: 76rem;
+  margin-inline: auto;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  color: $tq-blue-dark;
+}
+
+.page-header, .section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+h1, h2, p {
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+header p {
+  color: $tq-gray-medium;
+}
+
+section {
+  margin-top: 1.5rem;
+  padding: clamp(.85rem, 3vw, 1.5rem);
+  border: 1px solid $tq-blue-light;
+  border-radius: .75rem;
+  background: $tq-white;
+}
+
+button, select {
+  padding: .4rem .7rem;
+  border: 1px solid $tq-blue-medium;
+  border-radius: .4rem;
+  background: $tq-white;
+  color: $tq-blue-dark;
+}
+
+button:enabled {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .6;
+}
+
+.queue-total {
+  margin-block: .75rem;
+}
+
+.queue-total strong {
+  font-size: 1.5rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+th, td {
+  padding: .55rem;
+  border-bottom: 1px solid $tq-blue-lighter;
+  text-align: end;
+  white-space: nowrap;
+}
+
+th:first-child {
+  text-align: start;
+}
+
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: .75rem;
+  margin: .75rem 0 0;
+
+  div {
+    padding: .75rem;
+    border-radius: .5rem;
+    background: $tq-blue-lighter;
+  }
+
+  dd {
+    margin: .25rem 0 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+}

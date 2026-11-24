@@ -1,0 +1,30 @@
+@if (points().length) {
+  <figure>
+    <div class="chart" aria-hidden="true">
+      @for (point of points(); track point.sampledAt) {
+        <div class="bar"
+             [style.height.%]="100 * point.pending / scale()"
+             [attr.title]="(point.sampledAt | date:'short') + ' · ' + (point.pending | number) + ' pending'">
+        </div>
+      }
+    </div>
+    <figcaption>
+      <span>{{ points()[0].sampledAt | date:'short' }} · {{ points()[0].pending | number }} pending</span>
+      <span>{{ points()[points().length - 1].sampledAt | date:'short' }}
+        · {{ points()[points().length - 1].pending | number }} pending</span>
+    </figcaption>
+  </figure>
+  <details>
+    <summary>View recorded counts</summary>
+    <dl>
+      @for (point of points(); track point.sampledAt) {
+        <div>
+          <dt>{{ point.sampledAt | date:'short' }}</dt>
+          <dd>{{ point.pending | number }}</dd>
+        </div>
+      }
+    </dl>
+  </details>
+} @else {
+  <p>No measurements yet. A measurement is recorded every 15 minutes.</p>
+}
