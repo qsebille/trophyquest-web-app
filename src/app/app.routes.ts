@@ -20,6 +20,12 @@ export const routes: Routes = [
   {path: 'player/:playerId', component: PlayerProfilePageComponent},
   {path: 'player-search', component: PlayerSearchPageComponent},
   {path: 'association', component: AssociationPageComponent, canActivate: [adminGuard]},
+  {
+    path: 'statistics',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./features/statistics/components/statistics-page/statistics-page.component')
+      .then(module => module.StatisticsPageComponent),
+  },
   {path: 'auth/callback', component: AuthCallbackComponent},
   {path: 'account', component: AccountPageComponent, canActivate: [authGuard]},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
