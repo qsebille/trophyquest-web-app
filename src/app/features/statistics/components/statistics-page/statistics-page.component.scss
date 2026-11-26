@@ -27,12 +27,15 @@ header p {
   color: $tq-gray-medium;
 }
 
-section {
-  margin-top: 1.5rem;
+.page-header, section {
   padding: clamp(.85rem, 3vw, 1.5rem);
   border: 1px solid $tq-blue-light;
   border-radius: .75rem;
   background: $tq-white;
+}
+
+section {
+  margin-top: 1.5rem;
 }
 
 button, select {
