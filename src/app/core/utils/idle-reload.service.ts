@@ -1,52 +1,47 @@
+import {DOCUMENT} from '@angular/common';
 import {inject, NgZone, OnDestroy, Service} from '@angular/core';
-import {filter, fromEvent, merge, startWith, Subscription, switchMap, tap, timer} from "rxjs";
+import {filter, fromEvent, merge, Subscription} from 'rxjs';
 
 @Service()
 export class IdleReloadService implements OnDestroy {
   private readonly timeoutMs = 60 * 60 * 1000;
-  private readonly ngZone: NgZone = inject(NgZone);
-  private sub?: Subscription;
+  private readonly document = inject(DOCUMENT);
+  private readonly ngZone = inject(NgZone);
+  private subscription?: Subscription;
 
-  start() {
+  start(): void {
     this.stop();
 
-    const activity$ = merge(
-      fromEvent(window, 'mousemove'),
-      fromEvent(window, 'mousedown'),
-      fromEvent(window, 'keydown'),
-      fromEvent(window, 'scroll'),
-      fromEvent(window, 'touchstart'),
-      fromEvent(window, 'click')
-    );
+    const view = this.document.defaultView;
+    if (!view) return;
 
-    const visible$ = fromEvent(document, 'visibilitychange').pipe(
-      startWith(null),
-      filter(() => document.visibilityState === 'visible')
-    );
+    let lastActivityAt = Date.now();
+    const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
 
     this.ngZone.runOutsideAngular(() => {
-      // Timer restarts when: user activity or tab becomes visible
-      this.sub = merge(activity$, visible$)
-        .pipe(
-          startWith(null),
-          switchMap(() => timer(this.timeoutMs)),
-          tap(() => {
-            // Not triggered if the tab is not visible
-            if (document.visibilityState === 'visible') {
-              location.reload();
-            }
-          })
-        )
-        .subscribe();
+      this.subscription = merge(
+        fromEvent(this.document, 'visibilitychange'),
+        ...activityEvents.map(event => fromEvent(view, event, {passive: true})),
+      ).pipe(
+        filter(() => this.document.visibilityState === 'visible'),
+      ).subscribe(() => {
+        const now = Date.now();
+        if (now - lastActivityAt >= this.timeoutMs) {
+          this.stop();
+          view.location.reload();
+          return;
+        }
+        lastActivityAt = now;
+      });
     });
   }
 
-  stop() {
-    this.sub?.unsubscribe();
-    this.sub = undefined;
+  stop(): void {
+    this.subscription?.unsubscribe();
+    this.subscription = undefined;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.stop();
   }
 }

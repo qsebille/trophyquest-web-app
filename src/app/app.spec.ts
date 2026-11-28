@@ -12,7 +12,7 @@ describe('App', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [{provide: IdleReloadService, useValue: {start: () => {}}}],
+      providers: [{provide: IdleReloadService, useValue: {start: () => {}, stop: () => {}}}],
     }).overrideComponent(App, {
       remove: {imports: [NavbarComponent]},
       add: {imports: [MockNavbarComponent]},

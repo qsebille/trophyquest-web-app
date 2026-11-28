@@ -1,7 +1,8 @@
 import {computed, inject, Service, signal} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {firstValueFrom} from 'rxjs';
+import {NotificationService} from '@core/notification/notification.service';
 import {environment} from '@environment';
 import {AuthState} from '../models/auth-state';
 import {TokenResponse} from '../models/token-response';
@@ -12,20 +13,20 @@ import {AuthApiService} from './auth-api.service';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly authApiService = inject(AuthApiService);
+  private readonly notifications = inject(NotificationService);
 
   private readonly domain = environment.cognito.domain;
   private readonly clientId = environment.cognito.clientId;
   private readonly scope = environment.cognito.scope;
+  private readonly refreshWindowMs = 30_000;
+  private renewal?: {session: AuthState; token: Promise<string | null>};
+  private readonly sessionVersion = signal(0);
 
   readonly authState = signal<AuthState | null>(this.restoreAuthState());
 
-  readonly isAuthenticated = computed(() => {
-    const state = this.authState();
-    return !!state && state.expiresAt > Date.now();
-  });
-
+  readonly isAuthenticated = computed(() => this.authState() !== null);
   private readonly profile = this.authApiService.fetchCurrentUser(
-    () => this.isAuthenticated() ? this.authState()?.accessToken : undefined,
+    () => this.isAuthenticated() ? this.sessionVersion() : null,
   );
   readonly currentUser = computed(() => this.profile.hasValue() ? this.profile.value() : null);
   readonly profileLoadFailed = computed(() => this.profile.status() === 'error');
@@ -33,6 +34,28 @@ export class AuthService {
   readonly adminAccess$ = toObservable(computed(() =>
     this.isAuthenticated() && this.profile.isLoading() ? undefined : this.isAdmin(),
   ));
+
+  getAccessToken(): string | null | Promise<string | null> {
+    const session = this.authState();
+    if (!session) return null;
+
+    const remainingMs = session.expiresAt - Date.now();
+    if (remainingMs > this.refreshWindowMs || (remainingMs > 0 && !session.refreshToken)) {
+      return session.accessToken;
+    }
+    if (!session.refreshToken) {
+      this.expireSession();
+      return null;
+    }
+
+    if (this.renewal?.session === session) return this.renewal.token;
+
+    const token = this.renewAccessToken(session, session.refreshToken).finally(() => {
+      if (this.renewal?.token === token) this.renewal = undefined;
+    });
+    this.renewal = {session, token};
+    return token;
+  }
 
   async register(): Promise<void> {
     await this.redirectToCognito('/signup');
@@ -65,35 +88,16 @@ export class AuthService {
       code_verifier: codeVerifier,
     });
 
-    const tokens = await firstValueFrom(
-      this.http.post<TokenResponse>(
-        `${this.domain}/oauth2/token`,
-        body.toString(),
-        {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/x-www-form-urlencoded',
-          }),
-        }
-      )
-    );
-
-    const authState: AuthState = {
-      accessToken: tokens.access_token,
-      idToken: tokens.id_token,
-      refreshToken: tokens.refresh_token,
-      expiresAt: Date.now() + tokens.expires_in * 1000,
-    };
-
-    this.authState.set(authState);
-    sessionStorage.setItem('auth_state', JSON.stringify(authState));
+    const tokens = await this.requestTokens(body);
+    this.saveTokens(tokens);
+    this.sessionVersion.update(version => version + 1);
 
     sessionStorage.removeItem('oauth_state');
     sessionStorage.removeItem('pkce_code_verifier');
   }
 
   logout(): void {
-    this.authState.set(null);
-    sessionStorage.removeItem('auth_state');
+    this.clearSession();
     sessionStorage.removeItem('oauth_state');
     sessionStorage.removeItem('pkce_code_verifier');
 
@@ -109,11 +113,66 @@ export class AuthService {
   }
 
   async updateDisplayName(displayName: string): Promise<void> {
-    const session = this.authState();
+    const version = this.sessionVersion();
     const user = await firstValueFrom(this.authApiService.updateDisplayName(displayName));
-    if (this.authState() === session) {
+    if (this.authState() && this.sessionVersion() === version) {
       this.profile.set(user);
     }
+  }
+
+  private async renewAccessToken(session: AuthState, refreshToken: string): Promise<string | null> {
+    const body = new URLSearchParams({
+      grant_type: 'refresh_token',
+      client_id: this.clientId,
+      refresh_token: refreshToken,
+    });
+
+    try {
+      const tokens = await this.requestTokens(body);
+      if (this.authState() !== session) return null;
+
+      this.saveTokens(tokens, refreshToken);
+      return tokens.access_token;
+    } catch (error) {
+      if (this.authState() !== session) return null;
+      if (error instanceof HttpErrorResponse && error.status === 400
+        && error.error?.error === 'invalid_grant') {
+        this.expireSession();
+        return null;
+      }
+      if (session.expiresAt > Date.now()) return session.accessToken;
+      throw error;
+    }
+  }
+
+  private requestTokens(body: URLSearchParams): Promise<TokenResponse> {
+    return firstValueFrom(this.http.post<TokenResponse>(
+      `${this.domain}/oauth2/token`,
+      body.toString(),
+      {headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'})},
+    ));
+  }
+
+  private saveTokens(tokens: TokenResponse, previousRefreshToken?: string): void {
+    const session: AuthState = {
+      accessToken: tokens.access_token,
+      idToken: tokens.id_token,
+      refreshToken: tokens.refresh_token ?? previousRefreshToken,
+      expiresAt: Date.now() + tokens.expires_in * 1000,
+    };
+    this.authState.set(session);
+    sessionStorage.setItem('auth_state', JSON.stringify(session));
+  }
+
+  private clearSession(): void {
+    this.authState.set(null);
+    this.sessionVersion.update(version => version + 1);
+    sessionStorage.removeItem('auth_state');
+  }
+
+  private expireSession(): void {
+    this.clearSession();
+    this.notifications.sendInfo('Your session expired. Sign in again to continue.');
   }
 
   private get redirectUri(): string {
@@ -170,7 +229,7 @@ export class AuthService {
 
     try {
       const state = JSON.parse(raw) as AuthState;
-      return state.expiresAt > Date.now() ? state : null;
+      return state && (state.expiresAt > Date.now() || state.refreshToken) ? state : null;
     } catch {
       return null;
     }
