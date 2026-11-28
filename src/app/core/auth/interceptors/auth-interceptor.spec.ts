@@ -9,31 +9,21 @@ import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 describe('authInterceptor', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
-  let authService: any;
-
-  const mockAuthState = {
-    accessToken: 'mock-token',
-    idToken: 'mock-id-token',
-    expiresAt: Date.now() + 10000
-  };
+  const getAccessToken = vi.fn<AuthService['getAccessToken']>();
 
   beforeEach(() => {
-    const authServiceMock = {
-      authState: vi.fn().mockReturnValue(mockAuthState),
-      isAuthenticated: vi.fn().mockReturnValue(true)
-    };
+    getAccessToken.mockReset().mockReturnValue('mock-token');
 
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withXhr(), withInterceptors([authInterceptor])),
         provideHttpClientTesting(),
-        {provide: AuthService, useValue: authServiceMock}
+        {provide: AuthService, useValue: {getAccessToken}}
       ]
     });
 
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-    authService = TestBed.inject(AuthService);
   });
 
   afterEach(() => {
@@ -49,8 +39,7 @@ describe('authInterceptor', () => {
   });
 
   it('should NOT add an Authorization header when NOT authenticated (no token)', () => {
-    authService.authState.mockReturnValue(null);
-    authService.isAuthenticated.mockReturnValue(false);
+    getAccessToken.mockReturnValue(null);
 
     httpClient.get(`${environment.apiUrl}/test`).subscribe();
 
@@ -58,18 +47,21 @@ describe('authInterceptor', () => {
     expect(req.request.headers.has('Authorization')).toBe(false);
   });
 
-  it('should NOT add an Authorization header when token is expired', () => {
-    const expiredState = {
-      ...mockAuthState,
-      expiresAt: Date.now() - 10000
-    };
-    authService.authState.mockReturnValue(expiredState);
-    authService.isAuthenticated.mockReturnValue(false);
+  it('waits for renewal before sending two API requests', async () => {
+    let finishRenewal!: (token: string) => void;
+    getAccessToken.mockReturnValue(new Promise<string>(resolve => { finishRenewal = resolve; }));
+    const urls = ['first', 'second'].map(path => `${environment.apiUrl}/${path}`);
+    urls.forEach(url => httpClient.get(url).subscribe());
+    urls.forEach(url => httpTestingController.expectNone(url));
 
-    httpClient.get(`${environment.apiUrl}/test`).subscribe();
+    finishRenewal('renewed-token');
+    await Promise.resolve();
 
-    const req = httpTestingController.expectOne(`${environment.apiUrl}/test`);
-    expect(req.request.headers.has('Authorization')).toBe(false);
+    urls.forEach(url => {
+      const request = httpTestingController.expectOne(url);
+      expect(request.request.headers.get('Authorization')).toBe('Bearer renewed-token');
+      request.flush({});
+    });
   });
 
   it('should NOT add an Authorization header when not calling API', () => {
@@ -77,5 +69,6 @@ describe('authInterceptor', () => {
 
     const req = httpTestingController.expectOne('https://other-api.com/test');
     expect(req.request.headers.has('Authorization')).toBe(false);
+    expect(getAccessToken).not.toHaveBeenCalled();
   });
 });

@@ -21,6 +21,9 @@
       @if (saved()) {
         <p class="account-message account-success" role="status">Nickname saved.</p>
       }
+    } @else if (!authService.isAuthenticated()) {
+      <p role="status">Sign in to view your account.</p>
+      <button type="button" class="account-button" (click)="authService.login()">Sign in</button>
     } @else if (authService.profileLoadFailed()) {
       <p class="account-message account-error" role="alert">Could not load your account.</p>
       <button type="button" class="account-button retry-button" (click)="authService.refreshCurrentUser()">

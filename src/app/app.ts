@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {NavbarComponent} from '@core/navbar/navbar.component';
 import {RouterOutlet} from '@angular/router';
 import {IdleReloadService} from "@core/utils/idle-reload.service";
@@ -15,7 +15,7 @@ import {NotificationToastComponent} from '@core/notification/notification-toast.
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App implements OnInit, OnDestroy {
   private readonly backgroundImageService = inject(BackgroundService);
   private readonly idleReloadService = inject(IdleReloadService);
 
@@ -29,5 +29,9 @@ export class App {
 
   ngOnInit(): void {
     this.idleReloadService.start();
+  }
+
+  ngOnDestroy(): void {
+    this.idleReloadService.stop();
   }
 }

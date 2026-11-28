@@ -9,8 +9,10 @@ export class AuthApiService {
   private readonly apiUrl = `${environment.apiUrl}/auth`;
   private readonly httpClient = inject(HttpClient);
 
-  fetchCurrentUser(accessToken: () => string | undefined) {
-    return httpResource<AuthUser>(() => accessToken() ? {url: `${this.apiUrl}/me`} : undefined);
+  fetchCurrentUser(sessionVersion: () => number | null) {
+    return httpResource<AuthUser>(() =>
+      sessionVersion() === null ? undefined : {url: `${this.apiUrl}/me`},
+    );
   }
 
   updateDisplayName(displayName: string): Observable<AuthUser> {
